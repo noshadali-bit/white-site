@@ -1,0 +1,47 @@
+[28-May-2023 15:05:26 UTC] PHP Fatal error:  Cannot redeclare App\Http\Controllers\Admin\AdminDashController::saveprofile() in /home4/demodcts/public_html/demo/lms-profile/app/Http/Controllers/Admin/AdminDashController.php on line 1724
+[06-Jun-2023 00:23:42 UTC] PHP Fatal error:  Cannot redeclare App\Models\Role::get_roles() in /home4/demodcts/public_html/demo/main-lms/app/Models/Role.php on line 18
+[08-Jun-2023 17:07:27 UTC] PHP Fatal error:  Cannot redeclare App\Models\Course_type::get_course_type() in /home4/demodcts/public_html/demo/main-lms/app/Models/Course_type.php on line 22
+[03-Jul-2023 20:02:15 UTC] PHP Fatal error:  Cannot redeclare App\Http\Controllers\Admin\AdminDashController::savefaq() in /home4/demodcts/public_html/demo/main-lms/app/Http/Controllers/Admin/AdminDashController.php on line 2397
+[03-Jul-2023 20:02:16 UTC] PHP Fatal error:  Cannot redeclare App\Http\Controllers\Admin\AdminDashController::savefaq() in /home4/demodcts/public_html/demo/main-lms/app/Http/Controllers/Admin/AdminDashController.php on line 2397
+[03-Jul-2023 20:02:17 UTC] PHP Fatal error:  Cannot redeclare App\Http\Controllers\Admin\AdminDashController::savefaq() in /home4/demodcts/public_html/demo/main-lms/app/Http/Controllers/Admin/AdminDashController.php on line 2397
+[02-Aug-2023 17:42:03 UTC] PHP Fatal error:  Cannot use isset() on the result of an expression (you can use "null !== expression" instead) in /home4/demodcts/public_html/demo/main-lms/storage/framework/views/b66616268dc8f63a8206097c733e866b36e899f3.php on line 73
+[02-Aug-2023 17:43:34 UTC] PHP Fatal error:  Cannot use isset() on the result of an expression (you can use "null !== expression" instead) in /home4/demodcts/public_html/demo/main-lms/storage/framework/views/b66616268dc8f63a8206097c733e866b36e899f3.php on line 73
+[14-Sep-2023 21:17:23 UTC] PHP Fatal error:  Cannot redeclare App\Http\Controllers\IndexController::login() in /home4/demodcts/public_html/demo/dhirs-gear/app/Http/Controllers/IndexController.php on line 83
+[14-Sep-2023 21:27:02 UTC] PHP Fatal error:  Cannot redeclare App\Http\Controllers\IndexController::air_hoses() in /home4/demodcts/public_html/demo/dhirs-gear/app/Http/Controllers/IndexController.php on line 93
+[24-Oct-2023 12:57:14 America/Chicago] PHP Warning:  require(/home4/demodcts/public_html/demo/amplify/public/../vendor/autoload.php): Failed to open stream: No such file or directory in /home4/demodcts/public_html/demo/amplify/public/index.php on line 34
+[24-Oct-2023 12:57:14 America/Chicago] PHP Fatal error:  Uncaught Error: Failed opening required '/home4/demodcts/public_html/demo/amplify/public/../vendor/autoload.php' (include_path='.:/opt/cpanel/ea-php82/root/usr/share/pear') in /home4/demodcts/public_html/demo/amplify/public/index.php:34
+Stack trace:
+#0 /home4/demodcts/public_html/demo/amplify/index.php(21): require_once()
+#1 {main}
+  thrown in /home4/demodcts/public_html/demo/amplify/public/index.php on line 34
+[24-Oct-2023 12:57:16 America/Chicago] PHP Warning:  require(/home4/demodcts/public_html/demo/amplify/public/../vendor/autoload.php): Failed to open stream: No such file or directory in /home4/demodcts/public_html/demo/amplify/public/index.php on line 34
+[24-Oct-2023 12:57:16 America/Chicago] PHP Fatal error:  Uncaught Error: Failed opening required '/home4/demodcts/public_html/demo/amplify/public/../vendor/autoload.php' (include_path='.:/opt/cpanel/ea-php82/root/usr/share/pear') in /home4/demodcts/public_html/demo/amplify/public/index.php:34
+Stack trace:
+#0 /home4/demodcts/public_html/demo/amplify/index.php(21): require_once()
+#1 {main}
+  thrown in /home4/demodcts/public_html/demo/amplify/public/index.php on line 34
+[24-Oct-2023 12:57:22 America/Chicago] PHP Warning:  require(/home4/demodcts/public_html/demo/amplify/public/../vendor/autoload.php): Failed to open stream: No such file or directory in /home4/demodcts/public_html/demo/amplify/public/index.php on line 34
+[24-Oct-2023 12:57:22 America/Chicago] PHP Fatal error:  Uncaught Error: Failed opening required '/home4/demodcts/public_html/demo/amplify/public/../vendor/autoload.php' (include_path='.:/opt/cpanel/ea-php82/root/usr/share/pear') in /home4/demodcts/public_html/demo/amplify/public/index.php:34
+Stack trace:
+#0 /home4/demodcts/public_html/demo/amplify/index.php(21): require_once()
+#1 {main}
+  thrown in /home4/demodcts/public_html/demo/amplify/public/index.php on line 34
+[24-Oct-2023 12:57:25 America/Chicago] PHP Warning:  require(/home4/demodcts/public_html/demo/amplify/public/../vendor/autoload.php): Failed to open stream: No such file or directory in /home4/demodcts/public_html/demo/amplify/public/index.php on line 34
+[24-Oct-2023 12:57:25 America/Chicago] PHP Fatal error:  Uncaught Error: Failed opening required '/home4/demodcts/public_html/demo/amplify/public/../vendor/autoload.php' (include_path='.:/opt/cpanel/ea-php82/root/usr/share/pear') in /home4/demodcts/public_html/demo/amplify/public/index.php:34
+Stack trace:
+#0 /home4/demodcts/public_html/demo/amplify/index.php(21): require_once()
+#1 {main}
+  thrown in /home4/demodcts/public_html/demo/amplify/public/index.php on line 34
+[24-Oct-2023 12:58:03 America/Chicago] PHP Warning:  require(/home4/demodcts/public_html/demo/amplify/public/../vendor/autoload.php): Failed to open stream: No such file or directory in /home4/demodcts/public_html/demo/amplify/public/index.php on line 34
+[24-Oct-2023 12:58:03 America/Chicago] PHP Fatal error:  Uncaught Error: Failed opening required '/home4/demodcts/public_html/demo/amplify/public/../vendor/autoload.php' (include_path='.:/opt/cpanel/ea-php82/root/usr/share/pear') in /home4/demodcts/public_html/demo/amplify/public/index.php:34
+Stack trace:
+#0 /home4/demodcts/public_html/demo/amplify/index.php(21): require_once()
+#1 {main}
+  thrown in /home4/demodcts/public_html/demo/amplify/public/index.php on line 34
+[24-Oct-2023 12:58:05 America/Chicago] PHP Warning:  require(/home4/demodcts/public_html/demo/amplify/public/../vendor/autoload.php): Failed to open stream: No such file or directory in /home4/demodcts/public_html/demo/amplify/public/index.php on line 34
+[24-Oct-2023 12:58:05 America/Chicago] PHP Fatal error:  Uncaught Error: Failed opening required '/home4/demodcts/public_html/demo/amplify/public/../vendor/autoload.php' (include_path='.:/opt/cpanel/ea-php82/root/usr/share/pear') in /home4/demodcts/public_html/demo/amplify/public/index.php:34
+Stack trace:
+#0 /home4/demodcts/public_html/demo/amplify/index.php(21): require_once()
+#1 {main}
+  thrown in /home4/demodcts/public_html/demo/amplify/public/index.php on line 34
+[19-Jan-2024 18:11:12 UTC] PHP Fatal error:  Trait "App\Http\Controllers\Admin\Illuminate\Support\Facades\Redirect" not found in /home4/demodcts/public_html/demo/alain-fernandez/app/Http/Controllers/Admin/AdminDashController.php on line 43
