@@ -2,11 +2,11 @@
 
  <section class="dashboard-sidebar">
     <div class="dashboard-sidebar-logo">
-        <a href="{{route('welcome')}}" title="Visit Site"><img src="{{asset($logo->img_path)}}" alt="dashboard-logo"></a>
+        <a href="{{route('home')}}" title="Visit Site"><img src="{{asset($logo->img_path)}}" alt="dashboard-logo"></a>
     </div>
     <div class="dashboard-sidebar-links">
         <ul>
-             <li class=""><a href="{{route('welcome')}}">
+             <li class=""><a href="{{route('home')}}">
                     <figure class="mb-0"><img src="{{asset('userdash/images/dashboard-link-1.png')}}" alt="dashboard-link-icon"></figure>
                     <span>Home</span>
                 </a></li>

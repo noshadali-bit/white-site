@@ -32,10 +32,14 @@ class SiteSettingsController extends Controller
         ]);
 
         $logo = request()->file('logo')->store('Uploads/Logo/' . auth('admin')->user()->id . rand() . rand(10, 100), 'public');
-        $save_logo = Imagetable::create([
-            'table_name' => 'logo',
-            'img_path' => $logo,
-        ]);
+        $matchThese = ['table_name'=>'logo'];
+        Imagetable::updateOrCreate([
+                'table_name'=>'logo'
+            ],
+            [
+                'table_name' => 'logo',
+                'img_path' => $logo,
+            ]);
         return back()->with('notify_success', 'Logo Updated!');
     }
 
@@ -239,14 +243,14 @@ class SiteSettingsController extends Controller
     public function updatewelcomeSlider(Request $request)
     {
         $request->validate([
-            'headings' => 'required|max:255',
+            // 'headings' => 'required|max:255',
             'long_desc' => 'required',
-            'subHeading' => 'required',
+            // 'subHeading' => 'required',
         ]);
         $image = imagetable::where('id', $request->id)->where('table_name', 'welcome-slider')->update(
             [
-                'headings' => $request->headings,
-                'subHeading' => $request->subHeading,
+                // 'headings' => $request->headings,
+                // 'subHeading' => $request->subHeading,
                 'long_desc' => $request->long_desc,
             ]
         );

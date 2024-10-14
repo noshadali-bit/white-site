@@ -7,22 +7,17 @@ use Illuminate\Http\Request;
 use App\Models\Imagetable;
 use App\Models\Inquiry;
 use App\Models\User;
-use App\Models\Admin;
-use App\Models\Config;
-use App\Models\Review;
-use App\Models\Products;
-use App\Models\Category;
-use App\Models\Sub_category;
 use App\Models\Newsletter;
-
 use App\Models\Password_resets;
-use Auth;
-use Mail;
-use DB;
+
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\DB;
+
 use Illuminate\Support\Facades\Hash;
-use Carbon\Carbon;
 use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Validator;
+use Carbon\Carbon;
+
 use App\Http\Controllers\Controller;
 
 class UserController extends Controller
@@ -93,7 +88,7 @@ class UserController extends Controller
             'subject' => $request['subject']
         ]);
 
-        return redirect()->route('welcome')->with('notify_success', 'Inquiry Submitted!');
+        return redirect()->route('home')->with('notify_success', 'Inquiry Submitted!');
     }
 
     public function newsletter_submit(Request $request)
@@ -106,7 +101,7 @@ class UserController extends Controller
             'email' => $request['email'],
         ]);
 
-        return redirect()->route('welcome')->with('notify_success', 'Request Submitted!');
+        return redirect()->route('home')->with('notify_success', 'Request Submitted!');
     }
 
     public function forget_password()
@@ -148,7 +143,7 @@ class UserController extends Controller
 
             return view('forgot-password-form', ['token' => $token, 'email' => $reset_email])->with(compact('reset_email'))->with('title', 'Reset Password');
         } else {
-            return redirect()->route('welcome')->with('notify_error', 'Inavlid Token');
+            return redirect()->route('home')->with('notify_error', 'Inavlid Token');
         }
     }
 

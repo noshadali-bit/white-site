@@ -14,8 +14,6 @@ use App\Http\Controllers\DashboardController;
 
 // ---------------------------------------All View Pages---------------------------------------
 Route::get('/', [IndexController::class, 'home'])->name('home');
-Route::get('/index', [IndexController::class, 'home'])->name('index');
-Route::get('/welcome', [IndexController::class, 'home'])->name('welcome');
 
 Route::get('/product', [IndexController::class, 'product'])->name('product');
 Route::get('/product-detail/{slug}', [IndexController::class, 'product_detail'])->name('product-detail');
@@ -59,7 +57,6 @@ Route::post('/forget-password-reset', [UserController::class, 'forget_password_r
 // ---------------------------------------Forget Password---------------------------------------
 
 Route::get('/cart', [IndexController::class, 'cart'])->name('cart');
-Route::get('/checkout/{ref?}', [IndexController::class, 'checkout'])->name('checkout');
 Route::post('/checkout', [CartController::class, 'checkout'])->name('checkout');
 
 // ---------------------------------------Cart---------------------------------------
@@ -155,6 +152,18 @@ Route::middleware(['admin'])->prefix('admin')->namespace('admin')->group(functio
   Route::post('/upload-csv-record', [ShopController::class, 'upload_csv_record'])->name('admin.upload_csv_record');
   // ---------------------------------------Products Management---------------------------------------
 
+  Route::get('/get-sub-cat', [ShopController::class, 'get_sub_cat'])->name('admin.get_sub_cat'); 
+
+  // ---------------------------------------Collection Management---------------------------------------
+  Route::get('/collection-listing', [AdminDashController::class, 'collection_listing'])->name('admin.collection_listing');
+  Route::get('/add-collection', [AdminDashController::class, 'add_collection'])->name('admin.add_collection');
+  Route::post('/create-collection', [AdminDashController::class, 'create_collection'])->name('admin.create_collection');
+  Route::get('/edit-collection/{id}', [AdminDashController::class, 'edit_collection'])->name('admin.edit_collection');
+  Route::post('/edit-collection', [AdminDashController::class, 'savecollection'])->name('admin.savecollection');
+  Route::get('/suspend-collection/{id}', [AdminDashController::class, 'suspend_collection'])->name('admin.suspend_collection');
+  Route::get('/delete-collection/{id}', [AdminDashController::class, 'delete_collection'])->name('admin.delete_collection');
+  // ---------------------------------------Collection Management---------------------------------------
+
   // ---------------------------------------category Management---------------------------------------
   Route::get('/category-listing', [AdminDashController::class, 'category_listing'])->name('admin.category_listing');
   Route::get('/add-category', [AdminDashController::class, 'add_category'])->name('admin.add_category');
@@ -165,21 +174,10 @@ Route::middleware(['admin'])->prefix('admin')->namespace('admin')->group(functio
   Route::get('/delete-category/{id}', [AdminDashController::class, 'delete_category'])->name('admin.delete_category');
   // ---------------------------------------category Management---------------------------------------
 
-  // ---------------------------------------Product_category Management---------------------------------------
-  Route::get('/product_category-listing', [AdminDashController::class, 'product_category_listing'])->name('admin.product_category_listing');
-  Route::get('/add-product_category', [AdminDashController::class, 'add_product_category'])->name('admin.add_product_category');
-  Route::post('/save-product_category', [AdminDashController::class, 'save_product_category'])->name('admin.save_product_category');
-  Route::get('/edit-product_category/{id}', [AdminDashController::class, 'edit_product_category'])->name('admin.edit_product_category');
-  Route::post('/update-product_category', [AdminDashController::class, 'update_product_category'])->name('admin.update_product_category');
-  Route::get('/suspend-product_category/{id}', [AdminDashController::class, 'suspend_product_category'])->name('admin.suspend_product_category');
-  Route::get('/delete-product_category/{id}', [AdminDashController::class, 'delete_product_category'])->name('admin.delete_product_category');
-  // ---------------------------------------Product_category Management---------------------------------------
-
   // ---------------------------------------Subcategory Management---------------------------------------
   Route::get('/subcategory-listing', [AdminDashController::class, 'subcategory_listing'])->name('admin.subcategory_listing');
   Route::get('/add-subcategory', [AdminDashController::class, 'add_subcategory'])->name('admin.add_subcategory');
   Route::post('/create-subcategory', [AdminDashController::class, 'create_subcategory'])->name('admin.create_subcategory');
-  Route::get('/edit-subcategory/{id}', [AdminDashController::class, 'edit_subcategory'])->name('admin.edit_subcategory');
   Route::get('/edit-subcategory/{id}', [AdminDashController::class, 'edit_subcategory'])->name('admin.edit_subcategory');
   Route::post('/edit-subcategory', [AdminDashController::class, 'savesubcategory'])->name('admin.savesubcategory');
   Route::get('/suspend-subcategory/{id}', [AdminDashController::class, 'suspend_subcategory'])->name('admin.suspend_subcategory');
@@ -221,6 +219,8 @@ Route::middleware(['admin'])->prefix('admin')->namespace('admin')->group(functio
   Route::post('/statusAjaxUpdate', [FrontEndEditorController::class, 'statusAjaxUpdate']);
   Route::post('/updateFlagOnKey', [FrontEndEditorController::class, 'updateFlagOnKey']);
   Route::post('/imageUpload', [FrontEndEditorController::class, 'imageUpload']);
+
+  Route::get('/check_slug', [AdminDashController::class, 'check_slug'])->name('admin.check_slug');
 
   // ---------------------------------------cms Management---------------------------------------
   Route::get('/logout', [AdminLoginController::class, 'logout'])->name('admin.logout');

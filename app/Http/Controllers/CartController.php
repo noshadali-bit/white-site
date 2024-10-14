@@ -2,35 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use App\Helpers\Helper;
-use Illuminate\Http\Request;
+
 use App\Models\Imagetable;
-use App\Models\Content;
-use App\Models\Testimonial;
-use App\Models\User;
+
 use App\Models\Products;
 use App\Models\Orders;
 use App\Models\OrderDetail;
-use App\Models\Category;
-
-use Session;
-use Stripe;
-use Auth;
-use Mail;
-
-use Stripe\Customer;
-use Stripe\Subscription;
-use Stripe\Plan;
-use Stripe\PaymentIntent;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Crypt;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 
 class CartController extends Controller
 {
     public function __construct()
     {
-        $logo = imagetable::where('table_name', 'logo')->latest()->first();
+        $logo = Imagetable::where('table_name', 'logo')->latest()->first();
         View()->share('logo', $logo);
         View()->share('config', $this->getConfig());
     }
@@ -67,7 +55,7 @@ class CartController extends Controller
             $message->to($order->email);
             $message->subject('Order Invoice - Alain Fernandez');
         });
-        return redirect()->route('welcome')->with('notify_success', 'Payment Charged Successfully!');
+        return redirect()->route('home')->with('notify_success', 'Payment Charged Successfully!');
     }
 
     public function paystatus(Request $request)

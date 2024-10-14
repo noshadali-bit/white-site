@@ -39,7 +39,7 @@
                     <div class="col-md-6">
                         <div class="detail_heading">
                             <ul>
-                                <li><a href="{{ route('index') }}">Home </a></li>
+                                <li><a href="{{ route('home') }}">Home </a></li>
                                 <li><a
                                         href="{{ route('product', ['category' => $product->get_categories->slug ?? 'uncategorized']) }}">{{ $product->get_categories->title ?? 'uncategorized' }}
                                     </a></li>

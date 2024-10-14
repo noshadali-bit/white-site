@@ -17,5 +17,14 @@ class Category extends Model
         return $this->hasMany(Products::class, 'category_id', 'id');
     }
 
-    
+    public function get_subcatgory()
+    {
+        return $this->hasMany(Sub_Category::class, 'category_id', 'id');
+    }
+
+    public function get_collection()
+    {
+        return $this->belongsTo("App\Models\Collection", 'collection_id');
+    }
+
 }

@@ -7,7 +7,7 @@
                     <div class="inner_cont">
                         <h3>Shop</h3>
                         <div class="inner_link">
-                            <a href="{{ route('index') }}">home</a>
+                            <a href="{{ route('home') }}">home</a>
                             <a href="{{ route('categories') }}">Categories</a>
                         </div>
                     </div>
@@ -20,7 +20,7 @@
         <div class="container">
             <div class="product_topbar">
                 <div class="pro_links">
-                    <a href="{{ route('index') }}">home</a>
+                    <a href="{{ route('home') }}">home</a>
                     <a href="{{ route('categories') }}">Categories</a>
                 </div>
                 <div class="pagenation">
@@ -81,11 +81,7 @@
                                 <div class="para">
                                     <p>{{ $product->short_desc }}</p>
                                 </div>
-                                {{-- <div class="icons">
-                            <a href="javascript:;"><i class='bx bx-git-compare'></i></a>
-                            <a href="javascript:;"><i class='bx bx-search'></i></a>
-                            <a href="javascript:;"><i class='bx bx-heart'></i></a>
-                        </div> --}}
+                                
                             </div>
                         </div>
                     </div>

@@ -1,69 +1,45 @@
 // Initialize Wow
 new WOW().init();
 
+// Dummy Slider
+$(".cata_slider").slick({
+  autoplay: false,
+  slidesToShow: 6,
+  slidesToScroll: 1,
+  arrows: true,
+  dots: false,
+});
 
-$(".banner-slider").slick({
+$(".cata_botSlider").slick({
   autoplay: true,
-  autoplaySpeed: 2000,
+  speed:3000,
+  autoplaySpeed:0,
+  cssEase:'linear',
+  slidesToShow: 4,
+  slidesToScroll: 1,
+  arrows: false,
+  dots: false,
+  variableWidth: true
+});
+
+
+$('.pro_main_slider').slick({
   slidesToShow: 1,
   slidesToScroll: 1,
   arrows: true,
-  dots: true,
+  fade: false,
+  dots: false, 
+  asNavFor: '.pro_sub_slider'
 });
-$(".testimonials_slider").slick({
-  autoplay: true,
-  autoplaySpeed: 2000,
-  slidesToShow: 3,
+$('.pro_sub_slider').slick({
+  slidesToShow: 5,
   slidesToScroll: 1,
-  arrows: true,
-  dots: true,
-  responsive: [
-    {
-      breakpoint: 1024,
-      settings: {
-        slidesToShow: 3,
-        slidesToScroll: 3,
-        infinite: true,
-        dots: true
-      }
-    },
-    {
-      breakpoint: 600,
-      settings: {
-        slidesToShow: 2,
-        slidesToScroll: 2
-      }
-    },
-    {
-      breakpoint: 480,
-      settings: {
-        slidesToShow: 1,
-        slidesToScroll: 1
-      }
-    }
-    // You can unslick at a given breakpoint now by adding:
-    // settings: "unslick"
-    // instead of a settings object
-  ]
+  asNavFor: '.pro_main_slider',
+  dots: false, 
+  focusOnSelect: true,
+  arrows: false,
 });
 
-
-
-$(document).ready(function(){
-
-  $(".mycart").click(function(){
-    $(".sidenav").addClass("show"); 
-    $(".cart").addClass("ovelay"); 
-  });
-  
-  $(".closebtn").click(function(){ 
-    $(".sidenav").removeClass("show");
-    $(".cart").removeClass("ovelay");
-  });
-
-})
-
-// detail counter js start
 
 function incrementValue() {
   var inputValue = parseInt(document.getElementById('counter').value);
@@ -76,30 +52,11 @@ function decrementValue() {
       document.getElementById('counter').value = inputValue - 1;
   }
 }
-
-// detail counter js end
-
-function incrementQuantity(button) {
-  var input = button.parentNode.querySelector('input[type=text]');
-  var value = parseInt(input.value, 10);
-  value = isNaN(value) ? 1 : value;
-  value++;
-  input.value = value;
-}
-
-function decrementQuantity(button) {
-  var input = button.parentNode.querySelector('input[type=text]');
-  var value = parseInt(input.value, 10);
-  value = isNaN(value) ? 1 : value;
-  value = value > 1 ? value - 1 : 1;
-  input.value = value;
-}
- 
- // Siderbar
-function openside() {
-    document.querySelector(".responsive_header").classList.add("show");
-}
-
-function closeside() {
-    document.querySelector(".responsive_header").classList.remove("show");
-}
+$('.srh_btn').click(function(){
+  $('.overlay').addClass('active')
+  $('.search_main').addClass('active')
+})
+$('.srh_cross').click(function(){
+  $('.overlay').removeClass('active')
+  $('.search_main').removeClass('active')
+})

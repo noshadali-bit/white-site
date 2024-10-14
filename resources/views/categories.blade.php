@@ -9,7 +9,7 @@
                 <div class="inner_cont">
                     <?php App\Helpers\Helper::inlineEditable("h3",["class" => " "],"Categories","INNERCONTENT23");?>
                     <div class="inner_link">
-                        <a href="{{ route("index") }}">home</a>
+                        <a href="{{ route("home") }}">home</a>
                     </div>
                 </div>
             </div>

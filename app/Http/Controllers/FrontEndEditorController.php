@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\m_flag;
 use App\Models\Imagetable;
 
-use DB;
-use Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 use App\Helpers\ImageUtil;
 

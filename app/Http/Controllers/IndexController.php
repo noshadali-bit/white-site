@@ -2,39 +2,46 @@
 
 namespace App\Http\Controllers;
 
-use Session;
 use App\Models\Imagetable;
 use App\Models\Testimonial;
 use App\Models\Products;
 use App\Models\Review;
 use App\Models\User;
 use App\Models\Category;
+use App\Models\Collection;
 use App\Models\Sub_category;
-use Auth;
-use Mail;
-use Str;
-use Carbon\Carbon;
+
+
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
+
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Crypt;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Http;
 
 class IndexController extends Controller
 {
     public function __construct()
     {
         $logo = Imagetable::where('table_name', "logo")->latest()->first();
+        $collections = Collection::where('is_featured', 1)
+            ->with([
+                'collection_categories' => function($query) {
+                    $query->with('get_subcatgory');
+                }
+            ])
+            ->get();
+
         View()->share('logo', $logo);
+        View()->share('collections', $collections);
         View()->share('config', $this->getConfig());
     }
 
     // -----------All View Pages-------------
 
-    
     public function home()
     {
-        
-        return view('index')->with('title', 'Home');
+        $welcome_slider = Imagetable::where('table_name', "welcome-slider")->first();
+        return view('index')->with('title', 'Home')->with(compact('welcome_slider'));
     }
     
     public function cart()

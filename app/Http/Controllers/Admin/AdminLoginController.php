@@ -3,19 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Imagetable;
-use App\Models\Admin;
 
 use Illuminate\Support\MessageBag;
 use Illuminate\Http\Request;
 
-use App\Rules\PasswordMatch;
-
-use Session;
-use Auth;
-use Hash;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\AdminLoginRequest;
-
 class AdminLoginController extends Controller
 {
     public function __construct()

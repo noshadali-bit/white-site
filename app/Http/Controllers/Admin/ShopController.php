@@ -4,33 +4,14 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Http\Requests\AdminLoginRequest;
-use App\Rules\PasswordMatch;
 
 use App\Models\Imagetable;
-use App\Models\Inquiry;
-use App\Models\User;
-use App\Models\Admin;
-use App\Models\Testimonial;
 use App\Models\Category;
 use App\Models\Products;
-use App\Models\Review;
 use App\Models\Sub_category;
-use Session;
-use Auth;
-
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\MessageBag;
-use Illuminate\Support\Str;
-
-use Maatwebsite\Excel\Concerns\ToModel;
-use Maatwebsite\Excel\Concerns\WithHeadingRow;
-use PhpOffice\PhpSpreadsheet\IOFactory;
-
 
 class ShopController extends Controller
 {
-    use MyTrait;
     public function __construct()
     {
         $logo = Imagetable::where('table_name', 'logo')->latest()->first();
@@ -57,6 +38,7 @@ class ShopController extends Controller
         $products = Products::with(['get_categories', 'get_sub_categories'])->orderByDesc('is_featured')->get();
         return view('admin.products-management.list')->with('title', 'Products Management')->with(compact('products'));
     }
+
     public function view_products($id)
     {
         $product = Products::with(['get_categories', 'get_sub_categories'])->where('slug', $id)->first();
@@ -68,8 +50,7 @@ class ShopController extends Controller
     public function add_products()
     {
         $categories = Category::where('is_active', 1)->get();
-        $subcategories = Sub_category::where('is_active', 1)->get();
-        return view('admin.products-management.add')->with('title', 'Add Product')->with(compact('categories', 'subcategories'));
+        return view('admin.products-management.add')->with('title', 'Add Product')->with(compact('categories'));
     }
 
     public function create_products(Request $request)
@@ -77,38 +58,29 @@ class ShopController extends Controller
         $request->validate([
             'title' => 'required|max:255',
             'price' => 'required',
-            'category_id' => 'required',
-            'type' => 'required',
+            'category' => 'required',
+            'sub_category' => 'required',
             'short_desc' => 'required',
             'img_path' => 'required|mimes:jpeg,jpg,png,gif,webp',
         ]);
 
-        $slug = $this->slug_maker($request->input('title'), Products::class);
         $product = Products::create([
             'title' =>  $request['title'],
             'price' =>  $request['price'],
-            'slug' => $slug,
-            'category_id' =>  $request['category_id'],
-            'type' =>  $request['type'],
-
-            'manufacturer' =>  $request['manufacturer'],
-            'calibergauge' =>  $request['calibergauge'],
-            'model' =>  $request['model'],
-            'manufacturer_model' =>  $request['manufacturer_model'],
-            'upc' =>  $request['upc'],
-
-            // 'detail' => serialize($request['detail']),
+            'slug' => str_replace(' ', '-', strtolower($request['title'])),
+            'category_id' =>  $request['category'],
+            'sub_category_id' =>  $request['sub_category'],
+            'short_desc' =>  $request['short_desc'],
 
             'is_featured' => $request['is_featured'] == 'on' ? '1' : '0',
             'in_deal' => $request['in_deal'] == 'on' ? '1' : '0',
-            'short_desc' =>  $request['short_desc'],
         ]);
 
         if (request()->hasFile('img_path')) {
             $main_image = request()->file('img_path')->store('Uploads/products/Images/' . $product->id . rand() . rand(10, 100), 'public');
             $image = Products::where('id', $product->id)->update(
                 [
-                    'img_path' => asset($main_image),
+                    'img_path' => $main_image,
                 ]
             );
         }
@@ -130,29 +102,21 @@ class ShopController extends Controller
         $request->validate([
             'title' => 'required|max:255',
             'price' => 'required',
-            'category_id' => 'required',
-            'type' => 'required',
+            'category' => 'required',
+            'sub_category' => 'required',
+            'short_desc' => 'required',
         ]);
-        $slug = $this->slug_maker($request->input('title'), Products::class);
 
         $product = Products::where('id', $request->id)->update([
             'title' =>  $request['title'],
             'price' =>  $request['price'],
-            'slug' => $slug,
-            'category_id' =>  $request['category_id'],
-            'type' =>  $request['type'],
-
-            'manufacturer' =>  $request['manufacturer'],
-            'calibergauge' =>  $request['calibergauge'],
-            'model' =>  $request['model'],
-            'manufacturer_model' =>  $request['manufacturer_model'],
-            'upc' =>  $request['upc'],
-
-            'detail' => serialize($request['detail']),
+            'slug' => str_replace(' ', '-', strtolower($request['title'])),
+            'category_id' =>  $request['category'],
+            'sub_category_id' =>  $request['sub_category'],
+            'short_desc' =>  $request['short_desc'],
 
             'is_featured' => $request['is_featured'] == 'on' ? '1' : '0',
             'in_deal' => $request['in_deal'] == 'on' ? '1' : '0',
-            'short_desc' =>  $request['short_desc'],
         ]);
 
         if (request()->hasFile('img_path')) {

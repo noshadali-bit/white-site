@@ -7,7 +7,7 @@
                     <div class="inner_cont">
                         <?php App\Helpers\Helper::inlineEditable("h3",["class" => " "],"TESTIMONIALS","INNERCONTENT27",);?>
                         <div class="inner_link">
-                            <a href="{{ route('index') }}">home</a>
+                            <a href="{{ route('home') }}">home</a>
                             <a href="javascript:;">Testimonials</a>
                         </div>
                     </div>

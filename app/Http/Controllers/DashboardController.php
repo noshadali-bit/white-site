@@ -2,37 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Contracts\Encryption\DecryptException;
-use Illuminate\Support\MessageBag;
-use Illuminate\Support\Facades\DB;
-
-use App\Models\inquiry;
-use App\Models\Imagetable;
-use App\Models\Testimonial;
 use App\Models\User;
-use App\Models\Review;
 use App\Models\Products;
 use App\Models\Orders;
-use App\Models\OrderDetail;
-use App\Models\Category;
+use App\Models\Imagetable;
 
-use View;
-use Auth;
-use Route;
-use Session;
-
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
-use Illuminate\Support\Str;
-
-use App\Http\Controllers;
+use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
 
     public function __construct()
     {
-        $logo = imagetable::where('table_name', 'logo')->latest()->first();
+        $logo = Imagetable::where('table_name', 'logo')->latest()->first();
         View()->share('logo', $logo);
         View()->share('config', $this->getConfig());
     }

@@ -7,7 +7,7 @@
                     <div class="inner_cont">
                         <h3>Checkout</h3>
                         <div class="inner_link">
-                            <a href="{{ route('index') }}">home</a>
+                            <a href="{{ route('home') }}">home</a>
                             <a href="javascript:;">Checkout</a>
                         </div>
                     </div>

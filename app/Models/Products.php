@@ -18,7 +18,7 @@ class Products extends Model
     }
     public function get_sub_categories()
     {
-        return $this->belongsTo("App\Models\Sub_category", 'type');
+        return $this->belongsTo("App\Models\Sub_category", 'sub_category_id');
     }
     public function get_reviews()
     {

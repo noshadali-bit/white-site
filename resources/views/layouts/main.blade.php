@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="icon" href="{{ asset(isset($logo) ? $logo->img_path : '') }}">
-    <title>{{ isset($title) ? $title . "    | Alain Fernandez" : " Alain Fernandez " }}</title>
+    <title>{{ isset($title) ? $title . " |  Beauty By Sahre" : " Beauty By Sahre " }}</title>
     @include('layouts.links')
     @yield('css')
 </head>

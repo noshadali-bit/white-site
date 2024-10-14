@@ -3,26 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use App\Http\Requests\AdminLoginRequest;
 
 use App\Models\Imagetable;
-use App\Models\Inquiry;
-use App\Models\User;
-use App\Models\Admin;
-use App\Models\Products;
-use App\Models\categories;
 use App\Models\Orders;
 use App\Models\OrderDetail;
-use App\Models\Category;
-use App\Models\Newsletter;
-use Session;
-use Auth;
-use Mail;
-use App\Rules\PasswordMatch;
-use Illuminate\Support\MessageBag;
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Validator;
 
 class OrderController extends Controller
 {

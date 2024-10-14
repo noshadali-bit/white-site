@@ -3,30 +3,28 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Http;
 
 use App\Models\Newsletter;
 use App\Models\Imagetable;
 use App\Models\Inquiry;
 use App\Models\User;
 use App\Models\Testimonial;
-use App\Models\Category;
 use App\Models\Sub_category;
 use App\Models\Review;
 use App\Models\Orders;
 use App\Models\Invoice;
 use App\Models\Products;
+use App\Models\Category;
+use App\Models\Collection;
 
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Mail;
 
-use Session;
-use Mail;
-use Str;
+use Illuminate\Support\Str;
 
-use Carbon\Carbon;
 use App\Traits\MyTrait;
-
 class AdminDashController extends Controller
 {
     use MyTrait;
@@ -69,6 +67,7 @@ class AdminDashController extends Controller
     }
     /*------------------INQUIRY Management--------------------------------*/ 
 
+    /*------------------User Management--------------------------------*/ 
     public function users_listing()
     {
         $users = User::with("get_roles_users")->get();
@@ -164,7 +163,9 @@ class AdminDashController extends Controller
             return redirect()->route('admin.users_listing')->with('notify_success', 'User Suspended Successfuly!!');
         }
     }
+    /*------------------User Management--------------------------------*/ 
 
+    /*------------------Testimonial Management--------------------------------*/ 
     public function testimonial_listing()
     {
         $testimonial = Testimonial::where("table_name", "main-testimonial")->get();
@@ -255,7 +256,9 @@ class AdminDashController extends Controller
         $testimonial = Testimonial::where('id', $id)->delete();
         return redirect()->route('admin.testimonial_listing')->with('notify_success', 'Testimonial Deleted Successfuly!!');
     }
+    /*------------------Testimonial Management--------------------------------*/ 
     
+    /*------------------Reviews Management--------------------------------*/ 
     public function reviews_listing()
     {
         $reviews = Review::with('get_products')->get();
@@ -299,36 +302,125 @@ class AdminDashController extends Controller
         $inquiry = Newsletter::where('id', $id)->delete();
         return back()->with('notify_success', 'Newsletter Deleted!');
     }
+    /*------------------Reviews Management--------------------------------*/ 
 
+    /*------------------Collection Management--------------------------------*/ 
+    public function collection_listing()
+    {
+        $collection = Collection::get();
+        return view('admin.collection-management.list')->with('title', 'Collection Management')->with(compact('collection'));
+    }
+
+    public function add_Collection()
+    {
+        return view('admin.collection-management.add')->with('title', 'Collection News');
+    }
+
+    public function savecollection(Request $request)
+    {
+        $request->validate([
+            'title' => 'required|max:255',
+        ]);
+
+        $collection = Collection::where('id', $request->id)->first();
+
+        $collection->is_featured = $request['is_featured'] == 'on' ? '1' : '0';
+
+        if(str_replace(' ', '-', strtolower($request['title'])) != $collection->slug){
+            $collection->title = $request['title'];
+            $collection->slug = str_replace(' ', '-', strtolower($request['title']));
+        }
+
+        if (request()->hasFile('thumbnails')) {
+            $thumbnail = request()->file('thumbnails')->store('Uploads/Collection/thumbnails/' . rand(10, 100), 'public');
+            $collection->img_path = $thumbnail;
+        }
+        $collection->save();
+
+        return redirect()->route('admin.collection_listing')->with('notify_success', 'Collection Updated Successfuly!!');
+    }
+
+    public function create_collection(Request $request)
+    {
+        $request->validate([
+            'title' => 'required|max:255',
+        ]);
+
+        $collection = Collection::where('slug', str_replace(' ', '-', strtolower($request['title'])))->first();
+
+        if(!$collection){
+            $collection = Collection::create([
+                'title' => $request['title'],
+                'slug' => str_replace(' ', '-', strtolower($request['title'])),
+                'is_featured' => $request['is_featured'] == 'on' ? '1' : '0',
+            ]);
+        }
+
+        if (request()->hasFile('thumbnails')) {
+            $thumbnail = request()->file('thumbnails')->store('Uploads/Collection/thumbnails/' . rand(10, 100), 'public');
+            $image = Collection::where('id', $collection->id)->update(
+                [
+                    'img_path' => $thumbnail,
+                    'is_featured' => $request['is_featured'] == 'on' ? '1' : '0',
+                ]
+            );
+        }
+        return redirect()->route('admin.collection_listing')->with('notify_success', 'Collection Created Successfuly!!');
+    }
+
+    public function edit_Collection($id)
+    {
+        $collection = Collection::where('slug', $id)->first();
+        return view('admin.collection-management.edit')->with('title', 'Edit Collection')->with(compact('collection'));
+    }
+
+    public function suspend_collection($id)
+    {
+        $collection = Collection::where('slug', $id)->first();
+        
+        if ($collection->is_active == 0) {
+            $collection->is_active = 1;
+            $collection->save();
+            return redirect()->route('admin.collection_listing')->with('notify_success', 'Collection Activated Successfuly!!');
+        } else {
+            $collection->is_active = 0;
+            $collection->save();
+            return redirect()->route('admin.collection_listing')->with('notify_success', 'Collection Suspended Successfuly!!');
+        }
+    }
+
+    public function delete_collection($id)
+    {
+        $collection = Collection::where('slug', $id)->delete();
+        return redirect()->route('admin.collection_listing')->with('notify_success', 'Collection Deleted Successfuly!!');
+    }
+    /*------------------collection Management--------------------------------*/ 
+
+    /*------------------Category Management--------------------------------*/ 
     public function category_listing()
     {
-        $categories = Category::get();
+        $categories = Category::with('get_collection')->get();
         return view('admin.category-management.list')->with('title', 'Category Management')->with(compact('categories'));
     }
 
     public function add_category()
     {
-        return view('admin.category-management.add')->with('title', 'Category News');
+        $collection = Collection::where('is_active', 1)->get();
+        return view('admin.category-management.add')->with('title', 'Category News')->with(compact('collection'));
     }
 
     public function savecategory(Request $request)
     {
         $request->validate([
             'title' => 'required|max:255',
-            'slug' => 'unique:category',
+            'collection_id' => 'required',
         ]);
 
         $category = Category::where('id', $request->id)->update([
             'title' => $request['title'],
             'slug' => str_replace(' ', '-', strtolower($request['title'])),
+            'collection_id' => $request['collection_id'],
         ]);
-
-        if (request()->hasFile('thumbnails')) {
-            $thumbnail = request()->file('thumbnails')->store('Uploads/Category/thumbnails/' . rand(10, 100), 'public');
-            $category = Category::where('id', $request->id)->update([
-                'img_path' => $thumbnail,
-            ]);
-        }
 
         return redirect()->route('admin.category_listing')->with('notify_success', 'Category Updated Successfuly!!');
     }
@@ -338,32 +430,28 @@ class AdminDashController extends Controller
         $request->validate([
             'title' => 'required|max:255',
             'slug' => 'unique:category',
+            'collection_id' => 'required',
         ]);
 
         $category = Category::create([
             'title' => $request['title'],
             'slug' => str_replace(' ', '-', strtolower($request['title'])),
+            'collection_id' => $request['collection_id'],
         ]);
-        if (request()->hasFile('thumbnails')) {
-            $thumbnail = request()->file('thumbnails')->store('Uploads/Category/thumbnails/' . rand(10, 100), 'public');
-            $image = Category::where('id', $category->id)->update(
-                [
-                    'img_path' => $thumbnail,
-                ]
-            );
-        }
+        
         return redirect()->route('admin.category_listing')->with('notify_success', 'Category Created Successfuly!!');
     }
 
     public function edit_category($id)
     {
-        $category = Category::where('id', $id)->first();
-        return view('admin.category-management.edit')->with('title', 'Edit category')->with(compact('category'));
+        $category = Category::where('slug', $id)->first();
+        $collection = Collection::where('is_active', 1)->get();
+        return view('admin.category-management.edit')->with('title', 'Edit category')->with(compact('category', 'collection'));
     }
 
     public function suspend_category($id)
     {
-        $category = category::where('id', $id)->first();
+        $category = category::where('slug', $id)->first();
         
         if ($category->is_active == 0) {
             $category->is_active = 1;
@@ -378,9 +466,10 @@ class AdminDashController extends Controller
 
     public function delete_category($id)
     {
-        $category = Category::where('id', $id)->delete();
+        $category = Category::where('slug', $id)->delete();
         return redirect()->route('admin.category_listing')->with('notify_success', 'Category Deleted Successfuly!!');
     }
+    /*------------------Category Management--------------------------------*/ 
 
     /*------------------Sub Category Management--------------------------------*/ 
     public function subcategory_listing()
@@ -401,7 +490,7 @@ class AdminDashController extends Controller
             [
                 'title' => 'required|max:255',
                 'category_id' => 'required',
-                'slug' => 'required|unique:sub_category'
+                'slug' => 'unique:sub_category'
             ],
             [
                 'category_id.required' => 'The category field is required.'
@@ -411,7 +500,7 @@ class AdminDashController extends Controller
         $subcategory = Sub_category::create([
             'title' => $request['title'],
             'category_id' => $request['category_id'],
-            'slug' => $request['slug'],
+            'slug' => str_replace(' ', '-', strtolower($request['title'])),
         ]);
 
         if (request()->hasFile('thumbnails')) {
@@ -427,8 +516,8 @@ class AdminDashController extends Controller
 
     public function edit_subcategory($id)
     {
-        $subcategory = Sub_Category::where('id', $id)->with('get_categories')->first();
-        $maincategory = Category::where('is_active', 1)->with('categoryHasSubCategory')->get();
+        $subcategory = Sub_Category::where('slug', $id)->with('category')->first();
+        $maincategory = Category::where('is_active', 1)->with('get_subcatgory')->get();
         return view('admin.subcategory-management.edit')->with('title', 'Edit sub category')->with('subcategory_menu', true)->with(compact('subcategory', 'maincategory'));
     }
     
@@ -438,18 +527,15 @@ class AdminDashController extends Controller
             [
                 'title' => 'required|max:255',
                 'category_id' => 'required',
-                'slug' => 'required|unique:sub_category'
-            ],
-            [
-                'category_id.required' => 'The category field is required.'
             ]
         );
 
         $subcategory = Sub_category::where('id', $request->id)->update([
             'title' => $request['title'],
             'category_id' => $request['category_id'],
-            'slug' => $request['slug'],
+            'slug' => str_replace(' ', '-', strtolower($request['title'])),
         ]);
+
         if (request()->hasFile('thumbnails')) {
             $thumbnail = request()->file('thumbnails')->store('Uploads/Sub_category/thumbnails/' . rand(10, 100), 'public');
             $image = Sub_category::where('id', $request->id)->update(
@@ -464,7 +550,7 @@ class AdminDashController extends Controller
 
     public function suspend_subcategory($id)
     {
-        $subcategory = Sub_category::where('id', $id)->first();
+        $subcategory = Sub_category::where('slug', $id)->first();
         if ($subcategory->is_active == 0) {
             $subcategory->is_active = 1;
             $subcategory->save();
@@ -478,7 +564,7 @@ class AdminDashController extends Controller
 
     public function delete_subcategory($id)
     {
-        $subcategory = Sub_category::where('id', $id)->delete();
+        $subcategory = Sub_category::where('slug', $id)->delete();
         return redirect()->route('admin.subcategory_listing')->with('notify_success', 'Sub Category Deleted Successfuly!!');
     }
 
@@ -491,7 +577,9 @@ class AdminDashController extends Controller
             return response()->json(['status' => 0]);
         }
     }
+    /*------------------Sub Category Management--------------------------------*/ 
 
+    /*------------------Order Management--------------------------------*/ 
     public function orders_listing()
     {
         $orders = Orders::get();
@@ -527,7 +615,9 @@ class AdminDashController extends Controller
         $order->save();
         return redirect()->route('admin.orders_listing')->with('notify_success', 'Order Status Updated Successfuly!!');
     }
+    /*------------------Order Management--------------------------------*/ 
 
+    /*------------------Invoice Management--------------------------------*/ 
     public function invoice_listing()
     {
         $invoices = Invoice::where("is_active", 1)->get();
@@ -603,5 +693,11 @@ class AdminDashController extends Controller
         $invoice = Invoice::where('id', $id)->delete();
         return redirect()->route('admin.invoice_listing')->with('notify_success', 'Invoice Deleted Successfuly!!');
     }
+    /*------------------Invoice Management--------------------------------*/ 
    
+    public function check_slug(Request $request)
+    {
+        $slug = Str::slug($request->title, '-');
+        return response()->json(['slug' => $slug]);
+    }
 }

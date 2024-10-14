@@ -4,8 +4,6 @@
 <script src="{{ asset('assets/js/wow.min.js') }}"></script>
 <script src="{{ asset('assets/js/slick.js') }}"></script>
 <script src="{{ asset('assets/js/fancybox.min.js') }}"></script>
-<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-element-bundle.min.js"></script>
-<script src="{{ asset('assets/js/makisu.js') }}"></script>
 <script src="{{ asset('assets/js/app.js') }}"></script>
 {{-- -----------------------------------Links to Change----------------------------------- --}}
 
