@@ -13,7 +13,7 @@
                 <div class="top">
                     <div class="address">
                         <a href="javascript:;">Sign In</a>
-                        <a href="javascript:;" class="pak_img"><img src="assets/images/pak-flag.webp" alt=""></a>
+                        <a href="javascript:;" class="pak_img"><img src="{{ asset('assets/images/pak-flag.webp') }}" alt=""></a>
                         <a href="javascript:;">Tracking Info</a>
                         <a href="javascript:;">Corporate Inquiry</a>
                         <select name="" id="">
@@ -34,7 +34,7 @@
         <div class="container py-4">
             <div class="main_logo">
                 <a href="index.php" class="header__logo">
-                    <img src="assets/images/logo.png" alt="Logo" class="imgFluid" />
+                    <img src="{{ asset('assets/images/logo.png') }}" alt="Logo" class="imgFluid" />
                 </a>
             </div>
             <div class="header-main">
@@ -80,7 +80,7 @@
                                     <div class="main_innerCatMenu">
                                         <div class="cata_left">
                                             <div class="men_img">
-                                                <img src="assets/images/men.gif" alt="">
+                                                <img src="{{ asset('assets/images/men.gif') }}" alt="">
                                             </div>
                                             <div class="cata_innerMenu">
                                                 <a href="#">Kurta Pajama</a>
@@ -158,7 +158,7 @@
                                             </ul>
                                         </div>
                                         <div class="cata_menuRightIng">
-                                            <img src="assets/images/crew_img.jpg" alt="" class="img__cover">
+                                            <img src="{{ asset('assets/images/crew_img.jpg') }}" alt="" class="img__cover">
                                         </div>
                                     </div>
                                 </div>
@@ -194,7 +194,7 @@
                                             </ul>
                                         </div>
                                         <div class="makeup_img">
-                                            <img src="assets/images/makeup.gif" alt="" class="img__cover">
+                                            <img src="{{ asset('assets/images/makeup.gif') }}" alt="" class="img__cover">
                                         </div>
                                     </div>
                                 </div>

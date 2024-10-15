@@ -8,18 +8,29 @@ use App\Models\Imagetable;
 use App\Models\Products;
 use App\Models\Orders;
 use App\Models\OrderDetail;
+use App\Models\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 
+use Stripe;
 class CartController extends Controller
 {
     public function __construct()
     {
-        $logo = Imagetable::where('table_name', 'logo')->latest()->first();
+        $logo = Imagetable::where('table_name', "logo")->latest()->first();
+        $collections = Collection::where('is_featured', 1)
+            ->with([
+                'collection_categories' => function($query) {
+                    $query->with('get_subcatgory');
+                }
+            ])
+            ->get();
+
         View()->share('logo', $logo);
+        View()->share('collections', $collections);
         View()->share('config', $this->getConfig());
     }
 
@@ -75,21 +86,22 @@ class CartController extends Controller
     public function placeorder(Request $request)
     {
         $request->validate([
-            'email' => 'required',
             'fname' => 'required',
             'lname' => 'required',
+            'email' => 'required',
             'address' => 'required',
             'country' => 'required',
             'city' => 'required',
             'state' => 'required',
             'zip' => 'required',
+            'phone' => 'required',
         ]);
 
         $order = Orders::create([
             "user_id" => Auth::id(),
-            "email" => $request->email,
             "fname" => $request->fname,
             "lname" => $request->lname,
+            "email" => $request->email,
             "address" => $request->address,
             "apartment" => $request->apartment,
             "country" => $request->country,
@@ -99,91 +111,32 @@ class CartController extends Controller
             "phone" => $request->phone,
             "total_amount" => $request->total_amount,
         ]);
+
         $cart_data = Session::get('cart');
+        $cart_data['order_id'] = $order->id;
         $cart_data['order_id'] = $order->id;
         Session::put('cart', $cart_data);
         $data = compact('cart_data');
         return redirect()->route('stripe.post')->with("notify_success", "Success!")->with($data);
     }
 
-    public function stripePost()
+    public function stripePost(Request $request)
     {
         $cart_data = Session::get('cart');
-
-        $tot = 0;
-        foreach ($cart_data as $key => $value) {
-            if ($key != 'order_id') {
-                $rowid = $value['cart_id'];
-                $tot += $cart_data[$rowid]['sub_total'];
-            }
-        }
-
-        $order = $cart_data['order_id'];
-        $amount = $tot;
-        $amountInCents = (int) ($amount * 100);
+        $order = Orders::where('id', $cart_data['order_id'])->first();
+        $amount = $order->total_amount;
         try {
-            // $url = 'https://api.sandbox.fortis.tech/v1/elements/transaction/intention'; //sandbox
-            $url = 'https://api.fortis.tech/v1/elements/transaction/intention'; //production
+            Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
 
-            $data = array(
-                "action" => "sale",
-                "digitalWalletsOnly" => false,
-                "methods" => array(
-                    array(
-                        "type" => "cc",
-                        "product_transaction_id" => "11eeeaada43dffd6b01d4363"
-                    )
-                ),
-                "amount" => $amountInCents,
-                "tax_amount" => 1,
-                "location_id" => "11eeeaada40a0dca919861af",
-                "contact_id" => "11eeec6970614930aed5dd6e",
-                "save_account" => true,
-                "save_account_title" => "54",
-                "ach_sec_code" => "WEB",
-                "bank_funded_only_override" => false,
-                "allow_partial_authorization_override" => false,
-                "auto_decline_cvv_override" => false,
-                "auto_decline_street_override" => true,
-                "auto_decline_zip_override" => true,
-                "message" => "message50"
-            );
-            
-            $jsonData = json_encode($data);
-            
-            $curl = curl_init();
-            
-            curl_setopt_array($curl, array(
-                CURLOPT_URL => $url,
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_CUSTOMREQUEST => "POST",
-                CURLOPT_POSTFIELDS => $jsonData,
-                CURLOPT_HTTPHEADER => array(
-                    "Content-Type: application/json",
-                    "user-id: 11eeeaada5c8d4cab9c5ca5c",
-                    "user-api-key: 11eeec6766d6496c96d88017",
-                    // "developer-id: 840Qy6RW",
-                    "developer-id: 289dsn",
-                    "Accept: application/json"
-                )
-            ));
-            
-            $response = curl_exec($curl);
-            
-            if (curl_errno($curl)) {
-                $error_msg = curl_error($curl);
-                echo "cURL Error: " . $error_msg;
-            } else {
-                curl_close($curl);
-            
-                $responseData = json_decode($response, true);
-                if ($responseData) {
-                } else {
-                    echo "Invalid JSON response from the API";
-                }
-            }
-            $secret = $responseData['data']['client_token'];
-            return view('paysecure')->with(compact('secret', 'amount', 'order'));
+            $stripe = \Stripe\PaymentIntent::create([
+                'amount' => $amount * 100,
+                'currency' => 'usd',
+                'transfer_group' => "ORDER_95",
+            ]);
+            $secret = $stripe->client_secret;
+
+            return view('placeorder')->with('notify_success', 'Payment Charged Successfully!')->with(compact('secret', 'amount', 'order'));
+
         } catch (\Stripe\Exception\CardException $e) {
             return back()->with('notify_error', "a " . $e->getError()->message);
         } catch (\Stripe\Exception\RateLimitException $e) {
@@ -191,6 +144,7 @@ class CartController extends Controller
         } catch (\Stripe\Exception\InvalidRequestException $e) {
             return back()->with('notify_error', "c " . $e->getError()->message);
         } catch (\Stripe\Exception\AuthenticationException $e) {
+            dd($e);
             return back()->with('notify_error', "d " . $e->getError()->message);
         } catch (\Stripe\Exception\ApiConnectionException $e) {
             return back()->with('notify_error', "e " . $e->getError()->message);
@@ -199,6 +153,7 @@ class CartController extends Controller
         } catch (Exception $e) {
             return back()->with('notify_error', "g " . $e->getError()->message);
         }
+
     }
 
     public function checkout($ref = null)
@@ -257,29 +212,30 @@ class CartController extends Controller
 
     public function save_cart(Request $request)
     {
-        if (Session::has('cart') && !empty(Session::get('cart'))) {
-            $rowid = null;
-            $flag = 0;
-            $cart_data = Session::get('cart');
-            foreach ($cart_data as $key => $value) {
-                if ($key == 'order_id') {
-                    continue;
-                }
-                $product_id = $request->product_id;
-                $cartId = $product_id;
-                if ((intval($value['product_id']) == intval($request['product_id'])) && $value['cart_id'] == $cartId) {
-                    $flag = 1;
-                    $rowid = $value['cart_id'];
-                    $cart_data[$rowid]['quantity'] += $request['qty'];
-                    $cart_data[$rowid]['sub_total'] = $cart_data[$rowid]['price'] * $cart_data[$rowid]['quantity'];
+        Session::forget('cart');
+        // if (Session::has('cart') && !empty(Session::get('cart'))) {
+        //     $rowid = null;
+        //     $flag = 0;
+        //     $cart_data = Session::get('cart');
+        //     foreach ($cart_data as $key => $value) {
+        //         if ($key == 'order_id') {
+        //             continue;
+        //         }
+        //         $product_id = $request->product_id;
+        //         $cartId = $product_id;
+        //         if ((intval($value['product_id']) == intval($request['product_id'])) && $value['cart_id'] == $cartId) {
+        //             $flag = 1;
+        //             $rowid = $value['cart_id'];
+        //             $cart_data[$rowid]['quantity'] += $request['qty'];
+        //             $cart_data[$rowid]['sub_total'] = $cart_data[$rowid]['price'] * $cart_data[$rowid]['quantity'];
 
-                    Session::forget($rowid);
-                    Session::put('cart', $cart_data);
+        //             Session::forget($rowid);
+        //             Session::put('cart', $cart_data);
 
-                    return redirect()->route('cart')->with('notify_success', 'Product Added To Cart Successfully!');
-                }
-            }
-        }
+        //             return redirect()->route('cart')->with('notify_success', 'Product Added To Cart Successfully!');
+        //         }
+        //     }
+        // }
 
         $product_id = $request->product_id;
         $qty = $request->qty;
@@ -299,12 +255,11 @@ class CartController extends Controller
                 unset($cart[$cartId]);
             }
             $product = Products::where('id', $product_id)->first();
-            $cart[$cartId]['price'] = $request->price;
+            $cart[$cartId]['price'] = intval($request->price);
             $cart[$cartId]['cart_id'] = $cartId;
             $cart[$cartId]['quantity'] = $qty;
-            $cart[$cartId]['sub_total'] = floatval($request->price * $qty);
+            $cart[$cartId]['sub_total'] = floatval(intval($request->price) * $qty);
             $cart[$cartId]['product_id'] = $product_id;
-
             Session::put('cart', $cart);
             return redirect()->route('cart')->with('notify_success', 'Item Added to cart Successfully');
         } else {

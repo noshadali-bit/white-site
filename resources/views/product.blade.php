@@ -1,5 +1,6 @@
 @extends('layouts.main')
 @section('content')
+
     <section class="inner_banner">
         <div class="container">
             <div class="row justify-content-center align-items-center">
@@ -39,59 +40,68 @@
 
                     <div class="default_sorting">
                         <form class="order-by-form">
-                            @if(isset($_GET['category']))
+                            @if (isset($_GET['category']))
                                 <input type="hidden" name="category" value="{{ $_GET['category'] }}">
                             @endif
-                            
+
                             <select name="order_by" class="orderby order-by-select" aria-label="Shop order">
                                 <option value="menu_order" selected disabled>Default sorting</option>
-                                <option {{ isset($_GET['order_by']) && $_GET['order_by'] == 'sort-by-latest' ? 'selected' : ''  }} value="sort-by-latest">Sort by latest</option>
-                                <option {{ isset($_GET['order_by']) && $_GET['order_by'] == 'price-low-to-high' ? 'selected' : ''  }} value="price-low-to-high">Sort by price: low to high</option>
-                                <option {{ isset($_GET['order_by']) && $_GET['order_by'] == 'price-high-to-low' ? 'selected' : ''  }} value="price-high-to-low">Sort by price: high to low</option>
+                                <option
+                                    {{ isset($_GET['order_by']) && $_GET['order_by'] == 'sort-by-latest' ? 'selected' : '' }}
+                                    value="sort-by-latest">Sort by latest</option>
+                                <option
+                                    {{ isset($_GET['order_by']) && $_GET['order_by'] == 'price-low-to-high' ? 'selected' : '' }}
+                                    value="price-low-to-high">Sort by price: low to high</option>
+                                <option
+                                    {{ isset($_GET['order_by']) && $_GET['order_by'] == 'price-high-to-low' ? 'selected' : '' }}
+                                    value="price-high-to-low">Sort by price: high to low</option>
                             </select>
                         </form>
                     </div>
                 </div>
             </div>
-            @if(!$products->isEmpty())
-            <div class="row" id="grid-view-row">
-                @foreach ($products as $product)
-                    <div class="col-lg-3 col-md-6 col-sm-12 grid-view-columns">
-                        <div class="featured_items">
-                            <a href="{{ route('product-detail', $product->slug) }}" class="featured_img">
-                                <img src="{{ isset($product->img_path) ? $product->img_path : 'assets/images/placeholder.png' }}" alt="{{ $product->title }}">
-                            </a>
-                            <div class="featured_cont">
-                                <h3>{{ $product->title }}</h3>
-                                <h2>${{ number_format($product->price, 2) }}</h2>
-                                <form action="{{ route('save-cart') }}" method="POST">
-                                    @csrf
-                                    <input type="hidden" id="cart-price" name="price" value="{{ number_format($product->price, 2) }}">
-                                    <input type="hidden" name="product_id" value="{{ $product->id }}">
-                                    <div class="featured_btn">
-                                        <div class="featured_quinity">
-                                            <button type="button" class="f_minus" onclick="decrementQuantity(this)">-</button>
-                                            <input type="text" name="qty" value="1" min="1"
-                                                max="10" id="quantity">
-                                            <button type="button" class="f_plus" onclick="incrementQuantity(this)">+</button>
+            @if (!$products->isEmpty())
+                <div class="row" id="grid-view-row">
+                    @foreach ($products as $product)
+                        <div class="col-lg-3 col-md-6 col-sm-12 grid-view-columns">
+                            <div class="featured_items">
+                                <a href="{{ route('product-detail', $product->slug) }}" class="featured_img">
+                                    <img src="{{ asset($product->img_path) }}"
+                                        alt="{{ $product->title }}">
+                                </a>
+                                <div class="featured_cont">
+                                    <h3>{{ $product->title }}</h3>
+                                    <h2>${{ number_format($product->price, 2) }}</h2>
+                                    <form action="{{ route('save-cart') }}" method="POST">
+                                        @csrf
+                                        <input type="hidden" id="cart-price" name="price"
+                                            value="{{ $product->price }}">
+                                        <input type="hidden" name="product_id" value="{{ $product->id }}">
+                                        <div class="featured_btn">
+                                            <div class="featured_quinity">
+                                                <button type="button" class="f_minus"
+                                                    onclick="decrementQuantity(this)">-</button>
+                                                <input type="text" name="qty" value="1" min="1"
+                                                    max="10" id="quantity">
+                                                <button type="button" class="f_plus"
+                                                    onclick="incrementQuantity(this)">+</button>
+                                            </div>
+                                            <button class="cart-btn">Add to cart</button>
                                         </div>
-                                        <button class="cart-btn">Add to cart</button>
+                                    </form>
+                                    <div class="para">
+                                        <p>{{ $product->short_desc }}</p>
                                     </div>
-                                </form>
-                                <div class="para">
-                                    <p>{{ $product->short_desc }}</p>
+
                                 </div>
-                                
                             </div>
                         </div>
-                    </div>
-                @endforeach
-            </div>
+                    @endforeach
+                </div>
             @else
-            <div class="section_heading">
-    <h3 class="text-center">No products available</h3>
-</div>
-
+                <div class="section_heading">
+                    <h3 class="text-center">No products available</h3>
+                </div>
             @endif
 
             <div class="my-5">

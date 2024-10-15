@@ -56,8 +56,10 @@ Route::get('/forget-password-token/{token}', [UserController::class, 'forget_pas
 Route::post('/forget-password-reset', [UserController::class, 'forget_password_reset'])->name('forget-password-reset');
 // ---------------------------------------Forget Password---------------------------------------
 
+Route::get('/checkout/{ref?}', [IndexController::class, 'checkout'])->name('checkout');
+
 Route::get('/cart', [IndexController::class, 'cart'])->name('cart');
-Route::post('/checkout', [CartController::class, 'checkout'])->name('checkout');
+// Route::post('/checkout', [CartController::class, 'checkout'])->name('checkout');
 
 // ---------------------------------------Cart---------------------------------------
 Route::post('update-cart', [CartController::class, 'updatecart'])->name('update-cart');

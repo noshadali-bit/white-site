@@ -1,7 +1,6 @@
 @extends('layouts.main')
 @section('content')
 
-
 <section class="home_banner">
     <div class="banner_img">
         <img src="{{ $welcome_slider->img_path }}" alt="">
@@ -20,7 +19,7 @@
 
 {{-- <section class="home_banner">
     <div class="banner_img">
-        <img src="assets/images/banner.png" alt="">
+        <img src="{{ asset('assets/images/banner.png') }}" alt="">
     </div>
     <div class="container">
         <div class="row">
@@ -54,7 +53,7 @@
             <div class="col-md-4">
                 <a href="#" class="catagory_crd">
                     <div class="cata_goryImg">
-                        <img src="assets/images/cbot1.jpg" alt="">
+                        <img src="{{ asset('assets/images/cbot1.jpg') }}" alt="">
                     </div>
                     <div class="catagories_con">
                         <div class="catagory_top">
@@ -68,7 +67,7 @@
             <div class="col-md-4">
                 <a href="#" class="catagory_crd">
                     <div class="cata_goryImg">
-                        <img src="assets/images/cbot2.jpg" alt="">
+                        <img src="{{ asset('assets/images/cbot2.jpg') }}" alt="">
                     </div>
                     <div class="catagories_con">
                         <div class="catagory_top">
@@ -82,7 +81,7 @@
             <div class="col-md-4">
                 <a href="#" class="catagory_crd">
                     <div class="cata_goryImg">
-                        <img src="assets/images/cbot3.jpg" alt="">
+                        <img src="{{ asset('assets/images/cbot3.jpg') }}" alt="">
                     </div>
                     <div class="catagories_con">
                         <div class="catagory_top">
@@ -107,7 +106,7 @@
             <div class="cata_item">
                 <a href="#" class="cata_crd">
                     <div class="cata_img">
-                        <img src="assets/images/cata1.jpg" alt="">
+                        <img src="{{ asset('assets/images/cata1.jpg') }}" alt="">
                     </div>
                     <div class="cata_content">
                         <p>Women's</p>
@@ -118,7 +117,7 @@
             <div class="cata_item">
                 <a href="#" class="cata_crd">
                     <div class="cata_img">
-                        <img src="assets/images/cata2.jpg" alt="">
+                        <img src="{{ asset('assets/images/cata2.jpg') }}" alt="">
                     </div>
                     <div class="cata_content">
                         <p>Men's</p>
@@ -129,7 +128,7 @@
             <div class="cata_item">
                 <a href="#" class="cata_crd">
                     <div class="cata_img">
-                        <img src="assets/images/cata3.jpg" alt="">
+                        <img src="{{ asset('assets/images/cata3.jpg') }}" alt="">
                     </div>
                     <div class="cata_content">
                         <p>Jewelry</p>
@@ -140,7 +139,7 @@
             <div class="cata_item">
                 <a href="#" class="cata_crd">
                     <div class="cata_img">
-                        <img src="assets/images/cata4.jpg" alt="">
+                        <img src="{{ asset('assets/images/cata4.jpg') }}" alt="">
                     </div>
                     <div class="cata_content">
                         <p>Sneakers</p>
@@ -151,7 +150,7 @@
             <div class="cata_item">
                 <a href="#" class="cata_crd">
                     <div class="cata_img">
-                        <img src="assets/images/cata5.jpg" alt="">
+                        <img src="{{ asset('assets/images/cata5.jpg') }}" alt="">
                     </div>
                     <div class="cata_content">
                         <p>Bags</p>
@@ -162,7 +161,7 @@
             <div class="cata_item">
                 <a href="#" class="cata_crd">
                     <div class="cata_img">
-                        <img src="assets/images/cata6.jpg" alt="">
+                        <img src="{{ asset('assets/images/cata6.jpg') }}" alt="">
                     </div>
                     <div class="cata_content">
                         <p>Glasses</p>
@@ -173,7 +172,7 @@
             <div class="cata_item">
                 <a href="#" class="cata_crd">
                     <div class="cata_img">
-                        <img src="assets/images/cata7.jpg" alt="">
+                        <img src="{{ asset('assets/images/cata7.jpg') }}" alt="">
                     </div>
                     <div class="cata_content">
                         <p>New Arrivals</p>
@@ -223,7 +222,7 @@
                     <div class="col-md-3">
                         <div class="pro_items">
                             <div class="pro_img">
-                                <img src="assets/images/pro1.png" alt="">
+                                <img src="{{ asset('assets/images/pro1.png') }}" alt="">
                             </div>
                             <div class="pro_cont">
                                 <a href="product.php" class="arrivals_btn">Generally Speaking V-Neck Dress in Navy Floral.</a>
@@ -235,7 +234,7 @@
                     <div class="col-md-3">
                         <div class="pro_items">
                             <div class="pro_img">
-                                <img src="assets/images/pro2.png" alt="">
+                                <img src="{{ asset('assets/images/pro2.png') }}" alt="">
                             </div>
                             <div class="pro_cont">
                                 <a href="product.php" class="arrivals_btn">Simple Situation Mock Neck Bodysuit in White
@@ -248,7 +247,7 @@
                     <div class="col-md-3">
                         <div class="pro_items">
                             <div class="pro_img">
-                                <img src="assets/images/pro3.png" alt="">
+                                <img src="{{ asset('assets/images/pro3.png') }}" alt="">
                             </div>
                             <div class="pro_cont">
                                 <a href="product.php" class="arrivals_btn">Borrowed Time Mineral Wash V-Neck Dress,-.</a>
@@ -260,7 +259,7 @@
                     <div class="col-md-3">
                         <div class="pro_items">
                             <div class="pro_img">
-                                <img src="assets/images/pro4.png" alt="">
+                                <img src="{{ asset('assets/images/pro4.png') }}" alt="">
                             </div>
                             <div class="pro_cont">
                                 <a href="product.php" class="arrivals_btn">Warm Thoughts Ribbed Top in Charcoal.</a>
@@ -272,7 +271,7 @@
                     <div class="col-md-3">
                         <div class="pro_items">
                             <div class="pro_img">
-                                <img src="assets/images/valentine1.png" alt="">
+                                <img src="{{ asset('assets/images/valentine1.png') }}" alt="">
                             </div>
                             <div class="pro_cont">
                                 <a href="product.php" class="arrivals_btn">Warm Thoughts Ribbed Top in Charcoal.</a>
@@ -288,7 +287,7 @@
                     <div class="col-md-3">
                         <div class="pro_items">
                             <div class="pro_img">
-                                <img src="assets/images/pro1.png" alt="">
+                                <img src="{{ asset('assets/images/pro1.png') }}" alt="">
                             </div>
                             <div class="pro_cont">
                                 <a href="product.php" class="arrivals_btn">Generally Speaking V-Neck Dress in Navy Floral.</a>
@@ -300,7 +299,7 @@
                     <div class="col-md-3">
                         <div class="pro_items">
                             <div class="pro_img">
-                                <img src="assets/images/pro2.png" alt="">
+                                <img src="{{ asset('assets/images/pro2.png') }}" alt="">
                             </div>
                             <div class="pro_cont">
                                 <a href="product.php" class="arrivals_btn">Simple Situation Mock Neck Bodysuit in White
@@ -313,7 +312,7 @@
                     <div class="col-md-3">
                         <div class="pro_items">
                             <div class="pro_img">
-                                <img src="assets/images/pro3.png" alt="">
+                                <img src="{{ asset('assets/images/pro3.png') }}" alt="">
                             </div>
                             <div class="pro_cont">
                                 <a href="product.php" class="arrivals_btn">Borrowed Time Mineral Wash V-Neck Dress,-.</a>
@@ -325,7 +324,7 @@
                     <div class="col-md-3">
                         <div class="pro_items">
                             <div class="pro_img">
-                                <img src="assets/images/pro4.png" alt="">
+                                <img src="{{ asset('assets/images/pro4.png') }}" alt="">
                             </div>
                             <div class="pro_cont">
                                 <a href="product.php" class="arrivals_btn">Warm Thoughts Ribbed Top in Charcoal.</a>
@@ -337,7 +336,7 @@
                     <div class="col-md-3">
                         <div class="pro_items">
                             <div class="pro_img">
-                                <img src="assets/images/valentine1.png" alt="">
+                                <img src="{{ asset('assets/images/valentine1.png') }}" alt="">
                             </div>
                             <div class="pro_cont">
                                 <a href="product.php" class="arrivals_btn">Warm Thoughts Ribbed Top in Charcoal.</a>
@@ -353,7 +352,7 @@
                     <div class="col-md-3">
                         <div class="pro_items">
                             <div class="pro_img">
-                                <img src="assets/images/pro1.png" alt="">
+                                <img src="{{ asset('assets/images/pro1.png') }}" alt="">
                             </div>
                             <div class="pro_cont">
                                 <a href="product.php" class="arrivals_btn">Generally Speaking V-Neck Dress in Navy Floral.</a>
@@ -365,7 +364,7 @@
                     <div class="col-md-3">
                         <div class="pro_items">
                             <div class="pro_img">
-                                <img src="assets/images/pro2.png" alt="">
+                                <img src="{{ asset('assets/images/pro2.png') }}" alt="">
                             </div>
                             <div class="pro_cont">
                                 <a href="product.php" class="arrivals_btn">Simple Situation Mock Neck Bodysuit in White
@@ -378,7 +377,7 @@
                     <div class="col-md-3">
                         <div class="pro_items">
                             <div class="pro_img">
-                                <img src="assets/images/pro3.png" alt="">
+                                <img src="{{ asset('assets/images/pro3.png') }}" alt="">
                             </div>
                             <div class="pro_cont">
                                 <a href="product.php" class="arrivals_btn">Borrowed Time Mineral Wash V-Neck Dress,-.</a>
@@ -390,7 +389,7 @@
                     <div class="col-md-3">
                         <div class="pro_items">
                             <div class="pro_img">
-                                <img src="assets/images/pro4.png" alt="">
+                                <img src="{{ asset('assets/images/pro4.png') }}" alt="">
                             </div>
                             <div class="pro_cont">
                                 <a href="product.php" class="arrivals_btn">Warm Thoughts Ribbed Top in Charcoal.</a>
@@ -402,7 +401,7 @@
                     <div class="col-md-3">
                         <div class="pro_items">
                             <div class="pro_img">
-                                <img src="assets/images/valentine1.png" alt="">
+                                <img src="{{ asset('assets/images/valentine1.png') }}" alt="">
                             </div>
                             <div class="pro_cont">
                                 <a href="product.php" class="arrivals_btn">Warm Thoughts Ribbed Top in Charcoal.</a>
@@ -422,7 +421,7 @@
     <div class="row">
         <div class="col-md-4 p-0">
             <div class="all-in-one-img">
-                <img src="assets/images/allinone1.png" alt="">
+                <img src="{{ asset('assets/images/allinone1.png') }}" alt="">
             </div>
         </div>
         <div class="col-md-4 p-0">
@@ -437,7 +436,7 @@
         </div>
         <div class="col-md-4 p-0">
             <div class="all-in-one-img">
-                <img src="assets/images/allinone2.png" alt="">
+                <img src="{{ asset('assets/images/allinone2.png') }}" alt="">
             </div>
         </div>
     </div>
@@ -445,7 +444,7 @@
 
 <section class="simple">
     <div class="simple_overlay">
-        <img src="assets/images/simple_img.png" alt="">
+        <img src="{{ asset('assets/images/simple_img.png') }}" alt="">
     </div>
     <div class="container">
         <div class="row">
@@ -488,7 +487,7 @@
             <div class="col-md-3">
                 <div class="pro_items">
                     <div class="pro_img">
-                        <img src="assets/images/valentine1.png" alt="">
+                        <img src="{{ asset('assets/images/valentine1.png') }}" alt="">
                     </div>
                     <div class="pro_cont">
                         <a href="product.php" class="arrivals_btn">Total Eclipse Tumbler In Baby Pink</a>
@@ -500,7 +499,7 @@
             <div class="col-md-3">
                 <div class="pro_items">
                     <div class="pro_img">
-                        <img src="assets/images/valentine2.png" alt="">
+                        <img src="{{ asset('assets/images/valentine2.png') }}" alt="">
                     </div>
                     <div class="pro_cont">
                         <a href="product.php" class="arrivals_btn">Patch Things Up Patchwork Long Sleeve Sweatshirt</a>
@@ -512,7 +511,7 @@
             <div class="col-md-3">
                 <div class="pro_items">
                     <div class="pro_img">
-                        <img src="assets/images/valentine3.png" alt="">
+                        <img src="{{ asset('assets/images/valentine3.png') }}" alt="">
                     </div>
                     <div class="pro_cont">
                         <a href="product.php" class="arrivals_btn">Classic Beauty Quilted Clutch in Brown</a>
@@ -524,7 +523,7 @@
             <div class="col-md-3">
                 <div class="pro_items">
                     <div class="pro_img">
-                        <img src="assets/images/valentine4.png" alt="">
+                        <img src="{{ asset('assets/images/valentine4.png') }}" alt="">
                     </div>
                     <div class="pro_cont">
                         <a href="product.php" class="arrivals_btn">Lumber Jill Plaid Button Down</a>
@@ -536,7 +535,7 @@
             <div class="col-md-3">
                 <div class="pro_items">
                     <div class="pro_img">
-                        <img src="assets/images/pro1.png" alt="">
+                        <img src="{{ asset('assets/images/pro1.png') }}" alt="">
                     </div>
                     <div class="pro_cont">
                         <a href="product.php" class="arrivals_btn">Lumber Jill Plaid Button Down</a>
@@ -556,7 +555,7 @@
                 <div class="warm_main">
                     <div class="warm_main__items">
                         <div class="image">
-                            <img src="assets/images/wam_img1.png" alt="">
+                            <img src="{{ asset('assets/images/wam_img1.png') }}" alt="">
                         </div>
                         <div class="content">
                             <h3 class="title">Warm</h3>
@@ -576,7 +575,7 @@
                 <div class="warm_main">
                     <div class="warm_main__items">
                         <div class="image">
-                            <img src="assets/images/wam_img2.png" alt="">
+                            <img src="{{ asset('assets/images/wam_img2.png') }}" alt="">
                         </div>
                         <div class="content">
                             <h3 class="title">Warm</h3>
@@ -596,7 +595,7 @@
                 <div class="warm_main">
                     <div class="warm_main__items">
                         <div class="image">
-                            <img src="assets/images/wam_img3.png" alt="">
+                            <img src="{{ asset('assets/images/wam_img3.png') }}" alt="">
                         </div>
                         <div class="content">
                             <h3 class="title">Warm</h3>

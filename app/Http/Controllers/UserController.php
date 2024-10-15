@@ -9,6 +9,7 @@ use App\Models\Inquiry;
 use App\Models\User;
 use App\Models\Newsletter;
 use App\Models\Password_resets;
+use App\Models\Collection;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -25,7 +26,16 @@ class UserController extends Controller
     public function __construct()
     {
         $logo = Imagetable::where('table_name', "logo")->latest()->first();
+        $collections = Collection::where('is_featured', 1)
+            ->with([
+                'collection_categories' => function($query) {
+                    $query->with('get_subcatgory');
+                }
+            ])
+            ->get();
+
         View()->share('logo', $logo);
+        View()->share('collections', $collections);
         View()->share('config', $this->getConfig());
     }
 

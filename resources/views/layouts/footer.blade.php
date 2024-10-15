@@ -8,7 +8,7 @@
                         <div class="col-md-6">
                             <div class="foo_info">
                                 <a href="index.php" class="image">
-                                    <img src="assets/images/logo2.png" alt="">
+                                    <img src="{{ asset('assets/images/logo2.png') }}" alt="">
                                 </a>
                                 <p>"Discover denim perfection for every shape in our latest collection.</p>
                                 <div class="contacts">
@@ -60,7 +60,7 @@
                     <div class="copywrite">
                         <p class="text">Copyright © 2024 BEAUTY BY SHREE, All Rights Reserved.</p>
                         <div class="image">
-                            <img src="assets/images/cart_img.png" alt="">
+                            <img src="{{ asset('assets/images/cart_img.png') }}" alt="">
                         </div>
                     </div>
                 </div>

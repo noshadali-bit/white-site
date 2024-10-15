@@ -21,6 +21,11 @@
     <script type="text/javascript">
         (() => {
 
+            $(".cart-btn").on("click", function(){
+                var qty = $("name['qty']").val();
+                console.log(qty)
+            })
+
             @if (session('notify_success') || isset($_GET['notify_success']))
                 $.toast({
                     heading: 'Success!',
