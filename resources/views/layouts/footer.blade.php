@@ -60,7 +60,7 @@
                     <div class="copywrite">
                         <p class="text">Copyright © 2024 BEAUTY BY SHREE, All Rights Reserved.</p>
                         <div class="image">
-                            <img src="{{ asset('assets/images/cart_img.png') }}" alt="">
+                            <img src="{{ asset('assets/images/credit-card.png') }}" alt="">
                         </div>
                     </div>
                 </div>

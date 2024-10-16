@@ -16,7 +16,8 @@ use App\Http\Controllers\DashboardController;
 Route::get('/', [IndexController::class, 'home'])->name('home');
 
 Route::get('/product', [IndexController::class, 'product'])->name('product');
-Route::get('/product-detail/{slug}', [IndexController::class, 'product_detail'])->name('product-detail');
+
+Route::get('/product-detail', [IndexController::class, 'product_detail'])->name('product-detail');
 
 Route::get('/categories', [IndexController::class, 'categories'])->name('categories');
 Route::get('/sub_category/{slug}', [IndexController::class, 'sub_category'])->name('sub_category');

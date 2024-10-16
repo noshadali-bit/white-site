@@ -120,13 +120,9 @@ class IndexController extends Controller
         return view('testimonials')->with('title', 'Testimonials')->with($data);
     }
 
-    public function product_detail($slug)
+    public function product_detail($slug = null)
     {
-        $product = Products::where('slug', $slug)->first();
-        $related_products = Products::where('category_id', $product->category_id)->get();
-        $reviews = Review::where("is_active", 1)->where("product_id", $product->id)->get();
-        $data = compact('product', 'product_other_imgs', 'reviews', 'related_products');
-        return view('product-detail')->with('title', 'Product Details')->with($data);
+        return view('product-detail')->with('title', 'Product Details');
     }
 
     public function add_review(Request $request)
@@ -170,6 +166,7 @@ class IndexController extends Controller
 
     public function checkout($ref = null)
     {
+        return view('checkout');
         $sliders = Imagetable::where('table_name', 'checkout')->where('type', 2)->where('is_active_img', 1)->get();
         $sub_total = 0; 
         $total = 0; 

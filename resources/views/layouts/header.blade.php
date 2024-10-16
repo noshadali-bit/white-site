@@ -1,4 +1,7 @@
 <div class="overlay"></div>
+<div class="cart_crd">
+    
+</div>
     <div class="search_main">
         <div class="srh_cross"><i class='bx bx-x'></i></div>
         <h3 class="srh_head">SEARCH HERE</h3>

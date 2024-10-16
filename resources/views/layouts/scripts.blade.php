@@ -4,6 +4,7 @@
 <script src="{{ asset('assets/js/wow.min.js') }}"></script>
 <script src="{{ asset('assets/js/slick.js') }}"></script>
 <script src="{{ asset('assets/js/fancybox.min.js') }}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.0/jquery-ui.min.js"></script>
 <script src="{{ asset('assets/js/app.js') }}"></script>
 {{-- -----------------------------------Links to Change----------------------------------- --}}
 
