@@ -90,34 +90,31 @@ class CartController extends Controller
             'lname' => 'required',
             'email' => 'required',
             'address' => 'required',
-            'country' => 'required',
             'city' => 'required',
-            'state' => 'required',
-            'zip' => 'required',
             'phone' => 'required',
         ]);
 
         $order = Orders::create([
-            "user_id" => Auth::id(),
+            // "user_id" => Auth::id(),
             "fname" => $request->fname,
             "lname" => $request->lname,
             "email" => $request->email,
             "address" => $request->address,
             "apartment" => $request->apartment,
-            "country" => $request->country,
             "city" => $request->city,
-            "state" => $request->state,
-            "zip" => $request->zip,
             "phone" => $request->phone,
             "total_amount" => $request->total_amount,
+            'is_active' => 0,
+            'pay_status' => '1',
         ]);
-
-        $cart_data = Session::get('cart');
-        $cart_data['order_id'] = $order->id;
-        $cart_data['order_id'] = $order->id;
-        Session::put('cart', $cart_data);
-        $data = compact('cart_data');
-        return redirect()->route('stripe.post')->with("notify_success", "Success!")->with($data);
+        $cart_data = Session::get('cart');  
+        $detail = OrderDetail::create([
+            'order_id' => $order->id,
+            'details' => serialize($cart_data),
+            'total_amount' => $order->total_amount,
+        ]);
+        Session::forget('cart');
+        return redirect()->route('home')->with("notify_success", "Order Placed Success!");
     }
 
     public function stripePost(Request $request)
@@ -144,7 +141,6 @@ class CartController extends Controller
         } catch (\Stripe\Exception\InvalidRequestException $e) {
             return back()->with('notify_error', "c " . $e->getError()->message);
         } catch (\Stripe\Exception\AuthenticationException $e) {
-            dd($e);
             return back()->with('notify_error', "d " . $e->getError()->message);
         } catch (\Stripe\Exception\ApiConnectionException $e) {
             return back()->with('notify_error', "e " . $e->getError()->message);
@@ -199,9 +195,7 @@ class CartController extends Controller
         ]);
 
         $order_data = Orders::where('id', $request['order'])->first();
-        $package = Package::where('id', $order_data->pkg_id)->first();
-
-        Mail::send('email/subscription', ['order_data' => $order_data, 'package' => $package], function ($message) use ($order_data) {
+        Mail::send('email/subscription', ['order_data' => $order_data], function ($message) use ($order_data) {
             $message->from(env('MAIL_FROM_ADDRESS'));
             $message->to($order_data->email);
             $message->subject('Thank You!');
@@ -212,32 +206,36 @@ class CartController extends Controller
 
     public function save_cart(Request $request)
     {
-        Session::forget('cart');
-        // if (Session::has('cart') && !empty(Session::get('cart'))) {
-        //     $rowid = null;
-        //     $flag = 0;
-        //     $cart_data = Session::get('cart');
-        //     foreach ($cart_data as $key => $value) {
-        //         if ($key == 'order_id') {
-        //             continue;
-        //         }
-        //         $product_id = $request->product_id;
-        //         $cartId = $product_id;
-        //         if ((intval($value['product_id']) == intval($request['product_id'])) && $value['cart_id'] == $cartId) {
-        //             $flag = 1;
-        //             $rowid = $value['cart_id'];
-        //             $cart_data[$rowid]['quantity'] += $request['qty'];
-        //             $cart_data[$rowid]['sub_total'] = $cart_data[$rowid]['price'] * $cart_data[$rowid]['quantity'];
+        if (Session::has('cart') && !empty(Session::get('cart'))) {
+            $rowid = null;
+            $flag = 0;
+            $cart_data = Session::get('cart');
+            foreach ($cart_data as $key => $value) {
+                if ($key == 'order_id') {
+                    continue;
+                }
+                $product_id = $request->id;
+                $cartId = $product_id;
+                if ((intval($value['product_id']) == intval($cartId)) && $value['cart_id'] == $cartId) {
+                    $flag = 1;
+                    $rowid = $value['cart_id'];
+                    $cart_data[$rowid]['quantity'] += $request['qty'];
+                    $cart_data[$rowid]['sub_total'] = $cart_data[$rowid]['price'] * $cart_data[$rowid]['quantity'];
 
-        //             Session::forget($rowid);
-        //             Session::put('cart', $cart_data);
+                    Session::forget($rowid);
+                    Session::put('cart', $cart_data);
 
-        //             return redirect()->route('cart')->with('notify_success', 'Product Added To Cart Successfully!');
-        //         }
-        //     }
-        // }
-
-        $product_id = $request->product_id;
+                    return response()->json([
+                        'status' => 1,
+                        'msg' => "Item Added to cart Successfully",
+                        'data' => $request->all(),
+                    ]);
+                    // return redirect()->route('cart')->with('notify_success', 'Product Added To Cart Successfully!');
+                }
+            }
+        }
+        
+        $product_id = $request->id;
         $qty = $request->qty;
 
         $cart = array();
@@ -255,15 +253,22 @@ class CartController extends Controller
                 unset($cart[$cartId]);
             }
             $product = Products::where('id', $product_id)->first();
-            $cart[$cartId]['price'] = intval($request->price);
+            $cart[$cartId]['price'] = intval($product->price);
             $cart[$cartId]['cart_id'] = $cartId;
             $cart[$cartId]['quantity'] = $qty;
-            $cart[$cartId]['sub_total'] = floatval(intval($request->price) * $qty);
+            $cart[$cartId]['sub_total'] = floatval(intval($product->price) * $qty);
             $cart[$cartId]['product_id'] = $product_id;
             Session::put('cart', $cart);
-            return redirect()->route('cart')->with('notify_success', 'Item Added to cart Successfully');
+            return response()->json([
+                'status' => 1,
+                'msg' => "Item Added to cart Successfully",
+            ]);
+            // return redirect()->route('cart')->with('notify_success', 'Item Added to cart Successfully');
         } else {
-            return back()->with('notify_error', 'Something Went Wrong, Please Try Again!');
+            return response()->json([
+                'status' => 2,
+                'msg' => "Something Went Wrong, Please Try Again!",
+            ]);
         }
     }
 

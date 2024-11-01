@@ -67,7 +67,7 @@
 </style>
 @endsection
 @section('js')
-<script src="//cdn.ckeditor.com/4.14.1/standard/ckeditor.js"></script>
+<script src="///4.14.1/standard/ckeditor.js"></script>
 <script type="text/javascript">
 function thumb(input) {
         if (input.files && input.files[0]) {

@@ -15,18 +15,12 @@
             <div class="container">
                 <div class="top">
                     <div class="address">
-                        <a href="javascript:;">Sign In</a>
-                        <a href="javascript:;" class="pak_img"><img src="{{ asset('assets/images/pak-flag.webp') }}" alt=""></a>
+                        <a href="{{ route('login') }}">Sign In</a>
                         <a href="javascript:;">Tracking Info</a>
                         <a href="javascript:;">Corporate Inquiry</a>
-                        <select name="" id="">
-                            <option value="1">PAK</option>
-                            <option value="1">PAK</option>
-                            <option value="1">PAK</option>
-                        </select>
                     </div>
                     <ul class="languages">
-                        <li><a href="#"><i class='bx bxs-cart'></i></a></li>
+                        <li><a href="{{ route('cart') }}"><i class='bx bxs-cart'></i></a></li>
                         <li><a href="javascript:;" class="srh_btn"><i class='bx bx-search'></i> search
                             </a></li>
                     </ul>
@@ -36,8 +30,8 @@
         </div>
         <div class="container py-4">
             <div class="main_logo">
-                <a href="index.php" class="header__logo">
-                    <img src="{{ asset('assets/images/logo.png') }}" alt="Logo" class="imgFluid" />
+                <a href="{{ route('home') }}" class="header__logo">
+                    <img src="{{ asset($logo->img_path) }}" alt="Logo" class="imgFluid" />
                 </a>
             </div>
             <div class="header-main">
@@ -71,8 +65,8 @@
                             </div>
                         </li>
                         @endforeach
-                        <li><a href="">Catalogue</a></li>
-                        <li><a href="">SALE</a></li>
+                        <li><a href="{{ route('product') }}">Products</a></li>
+                        <li><a href="">Contact</a></li>
                     </ul>
 
 

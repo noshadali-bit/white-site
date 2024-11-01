@@ -177,7 +177,6 @@
 </style>
 @endsection
 @section('js')
-<script src="//cdn.ckeditor.com/4.14.1/standard/ckeditor.js"></script>
 <script src="jquery-ui-multiselect-widget-master/src/jquery.multiselect.js" type="text/javascript"></script>
 <script type="text/javascript">
 function mainimage(input) {

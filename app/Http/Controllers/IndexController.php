@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Models\Category;
 use App\Models\Collection;
 use App\Models\Sub_category;
+use App\Models\Product_images;
 
 
 use Illuminate\Support\Facades\Session;
@@ -23,7 +24,7 @@ class IndexController extends Controller
     public function __construct()
     {
         $logo = Imagetable::where('table_name', "logo")->latest()->first();
-        $collections = Collection::where('is_featured', 1)
+        $collections = Collection::where('is_featured', 1)->where('is_active', 1)
             ->with([
                 'collection_categories' => function($query) {
                     $query->with('get_subcatgory');
@@ -31,27 +32,48 @@ class IndexController extends Controller
             ])
             ->get();
 
+        $demo = "127.0.0.1";
+        $connect = '/';
+
+        if((strpos(url('/'), $demo) !== false)){
+            $connect = '';
+        }
+        if((strpos(url('/'), "localhost") !== false)){
+            $connect = '';
+        }
+        
         View()->share('logo', $logo);
         View()->share('collections', $collections);
         View()->share('config', $this->getConfig());
+        View()->share('connect', $connect);
     }
 
     // -----------All View Pages-------------
-
     public function home()
     {
         $welcome_slider = Imagetable::where('table_name', "welcome-slider")->first();
-        return view('index')->with('title', 'Home')->with(compact('welcome_slider'));
+        $collections = Collection::where('is_active', 1)->with([
+            'collection_categories' => function($query) {
+                $query->with('get_products');
+            }
+        ])->get();
+        $feature_products  = Products::where('is_active', 1)->where('is_featured', 1)->with('get_categories')->get();
+        $in_deal_products  = Products::where('is_active', 1)->where('is_featured', 1)->where('in_deal', 1)->with('get_categories')->get();
+        return view('index')->with('title', 'Home')->with(compact('welcome_slider', 'collections', 'feature_products', 'in_deal_products'));
     }
     
     public function cart()
     {
-        return view('cart')->with('title', 'Cart');
+        if (Session::has('cart') && !empty(Session::get('cart'))) {
+            return view('cart')->with('title', 'Cart');
+        }else{
+            return redirect()->back()->with('notify_error', 'Cart is Empty');
+        }
     }
     
     public function categories()
     {
-        $categories = Category::where('is_active', 1)->paginate(30);
+        $categories = Category::where('is_active', 1)->with('get_collection')->paginate(30);
         $data = compact('categories');
         return view('categories')->with('title', 'Categories')->with($data);
     }
@@ -86,13 +108,17 @@ class IndexController extends Controller
     public function product()
     {
         $products = Products::where('is_active', 1)->with('get_categories');
+        $all_collections = Collection::where('is_active', 1)->get();
+        $all_categories = Category::where('is_active', 1)->get();
+        $all_sub_categories = Sub_category::where('is_active', 1)->get();
 
         if (request()->has('category')) {
             $categorySlug = request('category');
-            $selectedCategory = Sub_category::where('slug', $categorySlug)->first();
+            $selectedCategory = Category::where('slug', $categorySlug)->first();
 
             if ($selectedCategory) {
-                $products->where('type', $selectedCategory->id);
+                $products->where('category_id', $selectedCategory->id);
+                $all_sub_categories = Sub_category::where('is_active', 1)->where('category_id', $selectedCategory->id)->get();
             }
         }
 
@@ -107,10 +133,23 @@ class IndexController extends Controller
                 $products->orderBy('price', 'desc');
             }
         }
+        
         $products = $products->paginate(1000);
 
-        $data = compact('products');
+        $data = compact('products', 'all_collections', 'all_categories', 'all_sub_categories');
         return view('product')->with('title', 'Product')->with($data);
+    }
+
+    public function select_collection(Request $request)
+    {
+        if($request->type == 'collection'){
+            $categories = Category::where('collection_id', $request->id)->with('get_subcatgory')->with('get_products')->get();
+            return response()->json(['status' => 1,'categories' => $categories]);
+        }elseif($request->type == "category"){
+
+        }elseif($request->type == "sub_category"){
+
+        }
     }
 
     public function testimonials()
@@ -120,9 +159,18 @@ class IndexController extends Controller
         return view('testimonials')->with('title', 'Testimonials')->with($data);
     }
 
-    public function product_detail($slug = null)
+    public function product_detail($slug)
     {
-        return view('product-detail')->with('title', 'Product Details');
+        $product = Products::where('slug', $slug)->first();
+        if($product){
+            $related_products = Products::where('category_id', $product->category_id)->get();
+            $product_other_imgs = Product_images::where('product_id', $product->id)->get();
+            $reviews = Review::where("is_active", 1)->where("product_id", $product->id)->get();
+            $data = compact('product', 'product_other_imgs', 'reviews', 'related_products');
+            return view('product-detail')->with('title', 'Product Details')->with($data);
+        }else{
+            return redirect()->route('product')->with('notify_error', 'Product Not Found');
+        }
     }
 
     public function add_review(Request $request)
@@ -166,12 +214,10 @@ class IndexController extends Controller
 
     public function checkout($ref = null)
     {
-        return view('checkout');
-        $sliders = Imagetable::where('table_name', 'checkout')->where('type', 2)->where('is_active_img', 1)->get();
         $sub_total = 0; 
         $total = 0; 
 
-        if (Auth::check()) {
+        // if (Auth::check()) {
             if (isset($_GET) && !empty($_GET)) {
                 Session::forget('shipping');
             }
@@ -185,14 +231,13 @@ class IndexController extends Controller
                         $total += $value['sub_total']; 
                     }
                 }
-
-                return view('checkout')->with('title', 'Checkout')->with(compact('cart_data', 'ref', 'sliders', 'sub_total', 'total'));
+                return view('checkout')->with('title', 'Checkout')->with(compact('cart_data', 'ref', 'sub_total', 'total'));
             } else {
                 return redirect()->route('cart')->with('notify_error', 'Your Cart Is Empty!');
             }
-        } else {
-            return redirect()->route('login')->with('notify_error', 'You need to login first!');
-        }
+        // } else {
+        //     return redirect()->route('login')->with('notify_error', 'You need to login first!');
+        // }
     }
     // -----------All View Pages-------------
 

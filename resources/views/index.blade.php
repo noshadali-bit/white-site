@@ -10,31 +10,12 @@
             <div class="col-md-6">
                 <div class="banner_cont">
                     {!! $welcome_slider->long_desc !!}
-                    <a href="{{ route('product') }}" class="themebtn">SHOP JEANS</a>
+                    <a href="{{ route('product') }}" class="themebtn">SHOP NOW</a>
                 </div>
             </div>
         </div>
     </div>
 </section> 
-
-{{-- <section class="home_banner">
-    <div class="banner_img">
-        <img src="{{ asset('assets/images/banner.png') }}" alt="">
-    </div>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6">
-                <div class="banner_cont">
-                    <h3>Curve Confidence:</h3>
-                    <h5>Denim Perfection for Every Shape</h5>
-                    <p>"Discover denim perfection for every shape in our latest collection. From slim to curvy, our
-                        jeans celebrate every curve with style and comfort. Find your perfect fit today.</p>
-                    <a href="product.php" class="themebtn">SHOP JEANS</a>
-                </div>
-            </div>
-        </div>
-    </div>
-</section> --}}
 
 <section class="catagories_bottom">
     <div class="cata_botSlider">
@@ -50,48 +31,22 @@
     </div>
     <div class="container pt-5">
         <div class="row">
+            @foreach ($in_deal_products as $item)
             <div class="col-md-4">
-                <a href="#" class="catagory_crd">
+                <a href="{{ $item->slug }}" class="catagory_crd">
                     <div class="cata_goryImg">
-                        <img src="{{ asset('assets/images/cbot1.jpg') }}" alt="">
+                        <img src="{{ asset($item->img_path) }}" alt="">
                     </div>
                     <div class="catagories_con">
                         <div class="catagory_top">
-                            <h4>Modern Backpack</h4>
-                            <p>Start from $199</p>
+                            <h4>{{ $item->title }}</h4>
+                            <p>Start from ${{ $item->price }}</p>
                         </div>
                         <div class="cata_botLink">Shop Now <i class='bx bx-right-arrow-alt'></i> </div>
                     </div>
                 </a>
             </div>
-            <div class="col-md-4">
-                <a href="#" class="catagory_crd">
-                    <div class="cata_goryImg">
-                        <img src="{{ asset('assets/images/cbot2.jpg') }}" alt="">
-                    </div>
-                    <div class="catagories_con">
-                        <div class="catagory_top">
-                            <h4>Modern Backpack</h4>
-                            <p>Start from $199</p>
-                        </div>
-                        <div class="cata_botLink">Shop Now <i class='bx bx-right-arrow-alt'></i> </div>
-                    </div>
-                </a>
-            </div>
-            <div class="col-md-4">
-                <a href="#" class="catagory_crd">
-                    <div class="cata_goryImg">
-                        <img src="{{ asset('assets/images/cbot3.jpg') }}" alt="">
-                    </div>
-                    <div class="catagories_con">
-                        <div class="catagory_top">
-                            <h4>Modern Backpack</h4>
-                            <p>Start from $199</p>
-                        </div>
-                        <div class="cata_botLink">Shop Now <i class='bx bx-right-arrow-alt'></i> </div>
-                    </div>
-                </a>
-            </div>
+            @endforeach
         </div>
     </div>
 </section>
@@ -103,88 +58,32 @@
             <a href="#" class="sec_link">View All Catagories <i class='bx bx-right-arrow-alt'></i></a>
         </div>
         <div class="cata_slider">
+            @foreach ($collections as $item)
             <div class="cata_item">
                 <a href="#" class="cata_crd">
                     <div class="cata_img">
-                        <img src="{{ asset('assets/images/cata1.jpg') }}" alt="">
+                        <img src="{{ asset($item->img_path) }}" alt="">
                     </div>
                     <div class="cata_content">
-                        <p>Women's</p>
-                        <span>23 items</span>
+                        <p>{{ $item->title }}</p>
+                        <span>
+                            @php
+                                $count = 0;
+                                foreach ($item->collection_categories as $key => $value) {
+                                    $count += $value->get_products->count();
+                                }
+
+                            @endphp
+                            {{ $count }} items</span>
                     </div>
                 </a>
             </div>
-            <div class="cata_item">
-                <a href="#" class="cata_crd">
-                    <div class="cata_img">
-                        <img src="{{ asset('assets/images/cata2.jpg') }}" alt="">
-                    </div>
-                    <div class="cata_content">
-                        <p>Men's</p>
-                        <span>9 items</span>
-                    </div>
-                </a>
-            </div>
-            <div class="cata_item">
-                <a href="#" class="cata_crd">
-                    <div class="cata_img">
-                        <img src="{{ asset('assets/images/cata3.jpg') }}" alt="">
-                    </div>
-                    <div class="cata_content">
-                        <p>Jewelry</p>
-                        <span>31 items</span>
-                    </div>
-                </a>
-            </div>
-            <div class="cata_item">
-                <a href="#" class="cata_crd">
-                    <div class="cata_img">
-                        <img src="{{ asset('assets/images/cata4.jpg') }}" alt="">
-                    </div>
-                    <div class="cata_content">
-                        <p>Sneakers</p>
-                        <span>21 items</span>
-                    </div>
-                </a>
-            </div>
-            <div class="cata_item">
-                <a href="#" class="cata_crd">
-                    <div class="cata_img">
-                        <img src="{{ asset('assets/images/cata5.jpg') }}" alt="">
-                    </div>
-                    <div class="cata_content">
-                        <p>Bags</p>
-                        <span>5 items</span>
-                    </div>
-                </a>
-            </div>
-            <div class="cata_item">
-                <a href="#" class="cata_crd">
-                    <div class="cata_img">
-                        <img src="{{ asset('assets/images/cata6.jpg') }}" alt="">
-                    </div>
-                    <div class="cata_content">
-                        <p>Glasses</p>
-                        <span>14 items</span>
-                    </div>
-                </a>
-            </div>
-            <div class="cata_item">
-                <a href="#" class="cata_crd">
-                    <div class="cata_img">
-                        <img src="{{ asset('assets/images/cata7.jpg') }}" alt="">
-                    </div>
-                    <div class="cata_content">
-                        <p>New Arrivals</p>
-                        <span>31 items</span>
-                    </div>
-                </a>
-            </div>
+            @endforeach
         </div>
     </div>
 </section>
 
-<section class="product_section">
+{{-- <section class="product_section">
     <div class="container">
         <div class="row">
             <div class="col-md-12">
@@ -199,7 +98,7 @@
                             </div>
                         </div>
                         <div class="col-md-2 text-end">
-                            <a href="product.php" class="themebtn">view all</a>
+                            <a href="{{ route('product') }}" class="themebtn">view all</a>
                         </div>
                     </div>
                 </div>
@@ -225,7 +124,7 @@
                                 <img src="{{ asset('assets/images/pro1.png') }}" alt="">
                             </div>
                             <div class="pro_cont">
-                                <a href="product.php" class="arrivals_btn">Generally Speaking V-Neck Dress in Navy Floral.</a>
+                                <a href="{{ route('product') }}" class="arrivals_btn">Generally Speaking V-Neck Dress in Navy Floral.</a>
                                 <p>$ 46.00 usd</p>
                                 <a href="cart.php" class="themebtn">add to cart</a>
                             </div>
@@ -237,7 +136,7 @@
                                 <img src="{{ asset('assets/images/pro2.png') }}" alt="">
                             </div>
                             <div class="pro_cont">
-                                <a href="product.php" class="arrivals_btn">Simple Situation Mock Neck Bodysuit in White
+                                <a href="{{ route('product') }}" class="arrivals_btn">Simple Situation Mock Neck Bodysuit in White
                                     Pearl.</a>
                                 <p>$ 29.00 usd</p>
                                 <a href="cart.php" class="themebtn">add to cart</a>
@@ -250,7 +149,7 @@
                                 <img src="{{ asset('assets/images/pro3.png') }}" alt="">
                             </div>
                             <div class="pro_cont">
-                                <a href="product.php" class="arrivals_btn">Borrowed Time Mineral Wash V-Neck Dress,-.</a>
+                                <a href="{{ route('product') }}" class="arrivals_btn">Borrowed Time Mineral Wash V-Neck Dress,-.</a>
                                 <p>$ 56.00 usd</p>
                                 <a href="cart.php" class="themebtn">add to cart</a>
                             </div>
@@ -262,7 +161,7 @@
                                 <img src="{{ asset('assets/images/pro4.png') }}" alt="">
                             </div>
                             <div class="pro_cont">
-                                <a href="product.php" class="arrivals_btn">Warm Thoughts Ribbed Top in Charcoal.</a>
+                                <a href="{{ route('product') }}" class="arrivals_btn">Warm Thoughts Ribbed Top in Charcoal.</a>
                                 <p>$ 30.00 usd</p>
                                 <a href="cart.php" class="themebtn">add to cart</a>
                             </div>
@@ -274,7 +173,7 @@
                                 <img src="{{ asset('assets/images/valentine1.png') }}" alt="">
                             </div>
                             <div class="pro_cont">
-                                <a href="product.php" class="arrivals_btn">Warm Thoughts Ribbed Top in Charcoal.</a>
+                                <a href="{{ route('product') }}" class="arrivals_btn">Warm Thoughts Ribbed Top in Charcoal.</a>
                                 <p>$ 30.00 usd</p>
                                 <a href="cart.php" class="themebtn">add to cart</a>
                             </div>
@@ -290,7 +189,7 @@
                                 <img src="{{ asset('assets/images/pro1.png') }}" alt="">
                             </div>
                             <div class="pro_cont">
-                                <a href="product.php" class="arrivals_btn">Generally Speaking V-Neck Dress in Navy Floral.</a>
+                                <a href="{{ route('product') }}" class="arrivals_btn">Generally Speaking V-Neck Dress in Navy Floral.</a>
                                 <p>$ 46.00 usd</p>
                                 <a href="cart.php" class="themebtn">add to cart</a>
                             </div>
@@ -302,7 +201,7 @@
                                 <img src="{{ asset('assets/images/pro2.png') }}" alt="">
                             </div>
                             <div class="pro_cont">
-                                <a href="product.php" class="arrivals_btn">Simple Situation Mock Neck Bodysuit in White
+                                <a href="{{ route('product') }}" class="arrivals_btn">Simple Situation Mock Neck Bodysuit in White
                                     Pearl.</a>
                                 <p>$ 29.00 usd</p>
                                 <a href="cart.php" class="themebtn">add to cart</a>
@@ -315,7 +214,7 @@
                                 <img src="{{ asset('assets/images/pro3.png') }}" alt="">
                             </div>
                             <div class="pro_cont">
-                                <a href="product.php" class="arrivals_btn">Borrowed Time Mineral Wash V-Neck Dress,-.</a>
+                                <a href="{{ route('product') }}" class="arrivals_btn">Borrowed Time Mineral Wash V-Neck Dress,-.</a>
                                 <p>$ 56.00 usd</p>
                                 <a href="cart.php" class="themebtn">add to cart</a>
                             </div>
@@ -327,7 +226,7 @@
                                 <img src="{{ asset('assets/images/pro4.png') }}" alt="">
                             </div>
                             <div class="pro_cont">
-                                <a href="product.php" class="arrivals_btn">Warm Thoughts Ribbed Top in Charcoal.</a>
+                                <a href="{{ route('product') }}" class="arrivals_btn">Warm Thoughts Ribbed Top in Charcoal.</a>
                                 <p>$ 30.00 usd</p>
                                 <a href="cart.php" class="themebtn">add to cart</a>
                             </div>
@@ -339,7 +238,7 @@
                                 <img src="{{ asset('assets/images/valentine1.png') }}" alt="">
                             </div>
                             <div class="pro_cont">
-                                <a href="product.php" class="arrivals_btn">Warm Thoughts Ribbed Top in Charcoal.</a>
+                                <a href="{{ route('product') }}" class="arrivals_btn">Warm Thoughts Ribbed Top in Charcoal.</a>
                                 <p>$ 30.00 usd</p>
                                 <a href="cart.php" class="themebtn">add to cart</a>
                             </div>
@@ -355,7 +254,7 @@
                                 <img src="{{ asset('assets/images/pro1.png') }}" alt="">
                             </div>
                             <div class="pro_cont">
-                                <a href="product.php" class="arrivals_btn">Generally Speaking V-Neck Dress in Navy Floral.</a>
+                                <a href="{{ route('product') }}" class="arrivals_btn">Generally Speaking V-Neck Dress in Navy Floral.</a>
                                 <p>$ 46.00 usd</p>
                                 <a href="cart.php" class="themebtn">add to cart</a>
                             </div>
@@ -367,7 +266,7 @@
                                 <img src="{{ asset('assets/images/pro2.png') }}" alt="">
                             </div>
                             <div class="pro_cont">
-                                <a href="product.php" class="arrivals_btn">Simple Situation Mock Neck Bodysuit in White
+                                <a href="{{ route('product') }}" class="arrivals_btn">Simple Situation Mock Neck Bodysuit in White
                                     Pearl.</a>
                                 <p>$ 29.00 usd</p>
                                 <a href="cart.php" class="themebtn">add to cart</a>
@@ -380,7 +279,7 @@
                                 <img src="{{ asset('assets/images/pro3.png') }}" alt="">
                             </div>
                             <div class="pro_cont">
-                                <a href="product.php" class="arrivals_btn">Borrowed Time Mineral Wash V-Neck Dress,-.</a>
+                                <a href="{{ route('product') }}" class="arrivals_btn">Borrowed Time Mineral Wash V-Neck Dress,-.</a>
                                 <p>$ 56.00 usd</p>
                                 <a href="cart.php" class="themebtn">add to cart</a>
                             </div>
@@ -392,7 +291,7 @@
                                 <img src="{{ asset('assets/images/pro4.png') }}" alt="">
                             </div>
                             <div class="pro_cont">
-                                <a href="product.php" class="arrivals_btn">Warm Thoughts Ribbed Top in Charcoal.</a>
+                                <a href="{{ route('product') }}" class="arrivals_btn">Warm Thoughts Ribbed Top in Charcoal.</a>
                                 <p>$ 30.00 usd</p>
                                 <a href="cart.php" class="themebtn">add to cart</a>
                             </div>
@@ -404,7 +303,7 @@
                                 <img src="{{ asset('assets/images/valentine1.png') }}" alt="">
                             </div>
                             <div class="pro_cont">
-                                <a href="product.php" class="arrivals_btn">Warm Thoughts Ribbed Top in Charcoal.</a>
+                                <a href="{{ route('product') }}" class="arrivals_btn">Warm Thoughts Ribbed Top in Charcoal.</a>
                                 <p>$ 30.00 usd</p>
                                 <a href="cart.php" class="themebtn">add to cart</a>
                             </div>
@@ -415,28 +314,29 @@
         </div>
 
     </div>
-</section>
+</section> --}}
 
 <section class="all-in-one">
     <div class="row">
         <div class="col-md-4 p-0">
             <div class="all-in-one-img">
-                <img src="{{ asset('assets/images/allinone1.png') }}" alt="">
+                <?php App\Helpers\Helper::dynamicImages(asset(''),$connect.'assets/images/allinone1.png',array("data-width"=>"100","data-height"=>"100","class"=>""),$title.'-IMG-1'); ?>
             </div>
         </div>
         <div class="col-md-4 p-0">
             <div class="all-in-one-cont">
                 <div class="cont_main">
-                    <h4>"Chic All-in-Ones: Explore Jumpsuits & Rompers"</h4>
-                    <p>"Elevate your style effortlessly with our jumpsuit and romper collection. From casual chic to
-                        dressed-up elegance, find your perfect one-piece ensemble for any occasion.</p>
-                    <a href="product.php" class="themebtn">SHOP NOW</a>
+                    <?php App\Helpers\Helper::inlineEditable('h4', ['class' => ''], '"Chic All-in-Ones: Explore Jumpsuits & Rompers"', 'WEL1'); ?>
+                    <?php App\Helpers\Helper::inlineEditable('p', ['class' => ''], '"Elevate your style effortlessly with our jumpsuit and romper collection. From casual chic to
+                        dressed-up elegance, find your perfect one-piece ensemble for any occasion."', 'WEL2'); ?>
+                    
+                    <a href="{{ route('product') }}" class="themebtn">SHOP NOW</a>
                 </div>
             </div>
         </div>
         <div class="col-md-4 p-0">
             <div class="all-in-one-img">
-                <img src="{{ asset('assets/images/allinone2.png') }}" alt="">
+                <?php App\Helpers\Helper::dynamicImages(asset(''),$connect.'assets/images/allinone2.png',array("data-width"=>"100","data-height"=>"100","class"=>""),$title.'-IMG-2'); ?>
             </div>
         </div>
     </div>
@@ -444,19 +344,19 @@
 
 <section class="simple">
     <div class="simple_overlay">
-        <img src="{{ asset('assets/images/simple_img.png') }}" alt="">
+        <?php App\Helpers\Helper::dynamicImages(asset(''),$connect.'assets/images/simple_img.png',array("data-width"=>"100","data-height"=>"100","class"=>""),$title.'-IMG-3'); ?>
     </div>
     <div class="container">
         <div class="row">
             <div class="col-md-8">
                 <div class="simple_main">
-                    <h3 class="title">Simple Situation Mock Neck Bodysuit in White Pearl</h3>
-                    <p class="text">Our Simple Situation Mock Neck Bodysuit is the perfect combination of style and
+                    <?php App\Helpers\Helper::inlineEditable('h3', ['class' => 'title'], 'Simple Situation Mock Neck Bodysuit in White Pearl', 'WEL3'); ?>
+                    <?php App\Helpers\Helper::inlineEditable('p', ['class' => 'text'], 'Our Simple Situation Mock Neck Bodysuit is the perfect combination of style and
                         comfort. Enjoy a cozy, buttery soft fabric, featuring a mock neckline and long sleeves. The
                         thong style ensures a seamless fit and look. Look great and feel amazing with this unique and
-                        comfortable bodysuit.</p>
+                        comfortable bodysuit.', 'WEL4'); ?>
                     <div class="simple_btn">
-                        <a href="product.php" class="themebtn">Shop Now</a>
+                        <a href="{{ route('product') }}" class="themebtn">Shop Now</a>
                     </div>
                 </div>
             </div>
@@ -477,73 +377,29 @@
                             </div>
                         </div>
                         <div class="col-md-2 text-end">
-                            <a href="product.php" class="themebtn">view all</a>
+                            <a href="{{ route('product') }}" class="themebtn">view all</a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
         <div class="row">
+            @foreach ($feature_products as $item)
             <div class="col-md-3">
                 <div class="pro_items">
                     <div class="pro_img">
-                        <img src="{{ asset('assets/images/valentine1.png') }}" alt="">
+                        <img src="{{ asset($item->img_path) }}" alt="">
                     </div>
                     <div class="pro_cont">
-                        <a href="product.php" class="arrivals_btn">Total Eclipse Tumbler In Baby Pink</a>
-                        <p>$18.00 USD</p>
-                        <a href="cart.php" class="themebtn">add to cart</a>
+                        <a href="{{ route('product-detail', $item->slug) }}" class="arrivals_btn">{{ $item->title }}</a>
+                        <p>${{ $item->price }} USD</p>
+                        <button class="themebtn cart-btn" data-product_id="{{ $item->id }}">
+                            Add To Cart
+                        </button>
                     </div>
                 </div>
             </div>
-            <div class="col-md-3">
-                <div class="pro_items">
-                    <div class="pro_img">
-                        <img src="{{ asset('assets/images/valentine2.png') }}" alt="">
-                    </div>
-                    <div class="pro_cont">
-                        <a href="product.php" class="arrivals_btn">Patch Things Up Patchwork Long Sleeve Sweatshirt</a>
-                        <p>$ 42.00 usd</p>
-                        <a href="cart.php" class="themebtn">add to cart</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="pro_items">
-                    <div class="pro_img">
-                        <img src="{{ asset('assets/images/valentine3.png') }}" alt="">
-                    </div>
-                    <div class="pro_cont">
-                        <a href="product.php" class="arrivals_btn">Classic Beauty Quilted Clutch in Brown</a>
-                        <p>$ 32.00 usd</p>
-                        <a href="cart.php" class="themebtn">add to cart</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="pro_items">
-                    <div class="pro_img">
-                        <img src="{{ asset('assets/images/valentine4.png') }}" alt="">
-                    </div>
-                    <div class="pro_cont">
-                        <a href="product.php" class="arrivals_btn">Lumber Jill Plaid Button Down</a>
-                        <p>$ 52.00 usd</p>
-                        <a href="cart.php" class="themebtn">add to cart</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="pro_items">
-                    <div class="pro_img">
-                        <img src="{{ asset('assets/images/pro1.png') }}" alt="">
-                    </div>
-                    <div class="pro_cont">
-                        <a href="product.php" class="arrivals_btn">Lumber Jill Plaid Button Down</a>
-                        <p>$ 52.00 usd</p>
-                        <a href="cart.php" class="themebtn">add to cart</a>
-                    </div>
-                </div>
-            </div>
+            @endforeach
         </div>
     </div>
 </section>
@@ -555,17 +411,19 @@
                 <div class="warm_main">
                     <div class="warm_main__items">
                         <div class="image">
-                            <img src="{{ asset('assets/images/wam_img1.png') }}" alt="">
+                            <?php App\Helpers\Helper::dynamicImages(asset(''),$connect.'assets/images/wam_img1.png',array("data-width"=>"100","data-height"=>"100","class"=>""),$title.'-IMG-4'); ?>
                         </div>
                         <div class="content">
-                            <h3 class="title">Warm</h3>
-                            <h5 class="subtitle">Thoughts Ribbed Top in Charcoal</h5>
-                            <p class="text">Welcome cool weather with the cozy style of the Warm Thoughts Ribbed Top!
+
+                            <?php App\Helpers\Helper::inlineEditable('h3', ['class' => 'title'], 'Warm', 'WEL5'); ?>
+                            <?php App\Helpers\Helper::inlineEditable('h5', ['class' => 'subtitle'], 'Thoughts Ribbed Top in Charcoal', 'WEL6'); ?>
+                            <?php App\Helpers\Helper::inlineEditable('p', ['class' => 'text'], 'Welcome cool weather with the cozy style of the Warm Thoughts Ribbed Top!
                                 Crafted from soft waffle knit, it features a wide boat neckline, dolman sleeves, and a
                                 relaxed fit. Plus, enjoy the versatility of being able to wear it off the shoulder!
-                                Enjoy unbeatable comfort in this season's must-have top!</p>
+                                Enjoy unbeatable comfort in this season`s must-have top!', 'WEL7'); ?>
+
                             <div class="warm_btn">
-                                <a href="product.php" class="themebtn">Shop Now</a>
+                                <a href="{{ route('product') }}" class="themebtn">Shop Now</a>
                             </div>
                         </div>
                     </div>
@@ -575,17 +433,17 @@
                 <div class="warm_main">
                     <div class="warm_main__items">
                         <div class="image">
-                            <img src="{{ asset('assets/images/wam_img2.png') }}" alt="">
+                            <?php App\Helpers\Helper::dynamicImages(asset(''),$connect.'assets/images/wam_img2.png',array("data-width"=>"100","data-height"=>"100","class"=>""),$title.'-IMG-5'); ?>
                         </div>
                         <div class="content">
-                            <h3 class="title">Warm</h3>
-                            <h5 class="subtitle">Thoughts Ribbed Top in Charcoal</h5>
-                            <p class="text">Welcome cool weather with the cozy style of the Warm Thoughts Ribbed Top!
+                            <?php App\Helpers\Helper::inlineEditable('h3', ['class' => 'title'], 'Warm', 'WEL8'); ?>
+                            <?php App\Helpers\Helper::inlineEditable('h5', ['class' => 'subtitle'], 'Thoughts Ribbed Top in Charcoal', 'WEL9'); ?>
+                            <?php App\Helpers\Helper::inlineEditable('p', ['class' => 'text'], 'Welcome cool weather with the cozy style of the Warm Thoughts Ribbed Top!
                                 Crafted from soft waffle knit, it features a wide boat neckline, dolman sleeves, and a
                                 relaxed fit. Plus, enjoy the versatility of being able to wear it off the shoulder!
-                                Enjoy unbeatable comfort in this season's must-have top!</p>
+                                Enjoy unbeatable comfort in this season`s must-have top!', 'WEL10'); ?>
                             <div class="warm_btn">
-                                <a href="product.php" class="themebtn">Shop Now</a>
+                                <a href="{{ route('product') }}" class="themebtn">Shop Now</a>
                             </div>
                         </div>
                     </div>
@@ -595,17 +453,17 @@
                 <div class="warm_main">
                     <div class="warm_main__items">
                         <div class="image">
-                            <img src="{{ asset('assets/images/wam_img3.png') }}" alt="">
+                            <?php App\Helpers\Helper::dynamicImages(asset(''),$connect.'assets/images/wam_img3.png',array("data-width"=>"100","data-height"=>"100","class"=>""),$title.'-IMG-5'); ?>
                         </div>
                         <div class="content">
-                            <h3 class="title">Warm</h3>
-                            <h5 class="subtitle">Thoughts Ribbed Top in Charcoal</h5>
-                            <p class="text">Welcome cool weather with the cozy style of the Warm Thoughts Ribbed Top!
+                            <?php App\Helpers\Helper::inlineEditable('h3', ['class' => 'title'], 'Warm', 'WEL11'); ?>
+                            <?php App\Helpers\Helper::inlineEditable('h5', ['class' => 'subtitle'], 'Thoughts Ribbed Top in Charcoal', 'WEL12'); ?>
+                            <?php App\Helpers\Helper::inlineEditable('p', ['class' => 'text'], 'Welcome cool weather with the cozy style of the Warm Thoughts Ribbed Top!
                                 Crafted from soft waffle knit, it features a wide boat neckline, dolman sleeves, and a
                                 relaxed fit. Plus, enjoy the versatility of being able to wear it off the shoulder!
-                                Enjoy unbeatable comfort in this season's must-have top!</p>
+                                Enjoy unbeatable comfort in this season`s must-have top!', 'WEL13'); ?>
                             <div class="warm_btn">
-                                <a href="product.php" class="themebtn">Shop Now</a>
+                                <a href="{{ route('product') }}" class="themebtn">Shop Now</a>
                             </div>
                         </div>
                     </div>
@@ -621,11 +479,11 @@
             <div class="col-md-8">
                 <div class="section_cont news_head text-center ">
                     <h3>Newsletter</h3>
-                    <p>New arrivals. Exclusive previews. First access to sales. Sign up to stay in the know.
-                    </p>
+                    <?php App\Helpers\Helper::inlineEditable('p', ['class' => ''], 'New arrivals. Exclusive previews. First access to sales. Sign up to stay in the know.', 'WEL14'); ?>
                 </div>
-                <form action="" class="news_form">
-                    <input type="email" placeholder="Enter Your Email">
+                <form action="{{ route('newsletter_submit') }}" method="POST" class="news_form">
+                    @csrf
+                    <input type="email" name="email" placeholder="Enter Your Email">
                     <button type="submit" class="themebtn">SUBMIT</button>
                 </form>
             </div>

@@ -91,7 +91,6 @@
     </style>
 @endsection
 @section('js')
-    <script src="https://cdn.ckeditor.com/ckeditor5/43.2.0/ckeditor5.js"></script>
     <script type="text/javascript">
         $('#add-record').click(function(e) {
             if ($("#headings").val() == "" && $("#subHeading").val() == "" && $("#long_desc").val() == "") {

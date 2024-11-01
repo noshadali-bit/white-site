@@ -38,6 +38,28 @@
 
                     <div class="col-lg-6 col-md-12 col-12">
                         <div class="form-group">
+                            <label>Old Price*:</label>
+                            <input type="text" name="old_price" id="old_price" value="{{ old('old_price') }}" min="1"
+                                class="form-control" placeholder="Enter Old Price">
+                            @if ($errors->has('old_price'))
+                                <span class="error">{{ $errors->first('old_price') }}</span>
+                            @endif
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6 col-md-12 col-12">
+                        <div class="form-group">
+                            <label>Stock*:</label>
+                            <input type="text" name="stock" id="stock" value="{{ old('stock') }}" min="1"
+                                class="form-control" placeholder="Enter Stock">
+                            @if ($errors->has('stock'))
+                                <span class="error">{{ $errors->first('stock') }}</span>
+                            @endif
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6 col-md-12 col-12">
+                        <div class="form-group">
                             <label>Category:</label>
                            <select name="category" class="form-control cat-dd" required>
                            <option selected value="">Select A Category</option>
@@ -102,6 +124,16 @@
 
                     </div>
 
+                    <div class="col-lg-12">
+                        <div class="file-upload-contain my-3 form-group">
+                            <label class="title mb-3">Other Images:</label>
+                            <input id="multiplefileupload" type="file" name="product_images[]" accept="" multiple />
+                        </div>
+                        @if ($errors->has('product_images'))
+                            <span class="text-danger">{{ $errors->first('product_images') }}</span>
+                        @endif
+                    </div>
+
                     <div class="col-lg-12 col-md-12 col-12">
                         <div class="text-center">
                             <button type="submit" class="primary-btn primary-bg" id="">Add New</button>
@@ -132,7 +164,6 @@
 @endsection
 @section('js')
     <script src="{{ asset('admin/js/file-upload.js') }}"></script>
-    <script src="//cdn.ckeditor.com/4.14.1/standard/ckeditor.js"></script>
 
     <script type="text/javascript">
         function validateAndSubmit() {

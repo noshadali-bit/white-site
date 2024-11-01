@@ -41,6 +41,28 @@
 
                         <div class="col-lg-6 col-md-6 col-12">
                             <div class="form-group">
+                                <label>Old Price*:</label>
+                                <input type="text" name="old_price" id="old_price" value="{{ $product->old_price }}"
+                                    min="1" class="form-control" placeholder="Enter Old Price">
+                                @if ($errors->has('old_price'))
+                                    <span class="error">{{ $errors->first('old_price') }}</span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6 col-md-6 col-12">
+                            <div class="form-group">
+                                <label>Stock*:</label>
+                                <input type="text" name="stock" id="stock" value="{{ $product->stock }}"
+                                    min="1" class="form-control" placeholder="Enter Stock">
+                                @if ($errors->has('stock'))
+                                    <span class="error">{{ $errors->first('stock') }}</span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6 col-md-6 col-12">
+                            <div class="form-group">
                                 <label>Category:</label>
                                 <select name="category" class="form-control cat-dd" required>
                                     <option selected value="">Select A Category</option>
@@ -112,6 +134,56 @@
                             </div>
 
                         </div>
+
+                        <div class="col-lg-12">
+                            <div class="file-upload-contain my-3 form-group">
+                                <label class="title mb-3">Other Images:</label>
+                                <input id="multiplefileupload" type="file" name="product_images[]" accept=""
+                                    multiple />
+                            </div>
+                            @if ($errors->has('product_images'))
+                                <span class="text-danger">{{ $errors->first('product_images') }}</span>
+                            @endif
+                        </div>
+                        @if (!$other_images->isEmpty())
+                            <div class="col-lg-12 mt-3">
+                                <div class="form-group">
+                                    <label class="course-detail__subHeading">Current Images:</label>
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <thead>
+                                                <tr class="text-left">
+                                                    <th>S.No</th>
+                                                    <th>Image</th>
+                                                    <th>Delete Image</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($other_images as $i => $image)
+                                                    @php
+                                                        $i++;
+                                                    @endphp
+                                                    <tr>
+                                                        <td>{{ $i }}</td>
+                                                        <td>
+
+                                                            <img class="imgFluid list-img d-block mx-0"
+                                                                src="{{ asset($image->img_path) }}">
+
+                                                        </td>
+
+                                                        <td><a class="delete-btn"
+                                                                href="{{ route('admin.delete_other_img', $image->id) }}"><i
+                                                                    class='bx bxs-trash-alt'></i></td>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif  
+
 
                         <div class="col-lg-12 col-md-12 col-12">
                             <div class="text-center">

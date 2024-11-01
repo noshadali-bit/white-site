@@ -10,7 +10,10 @@
 
 <script src="{{ asset('dash/js/jquery.toast.js') }}"></script>
 @if (Auth::guard('admin'))
-    <script src="//cdn.ckeditor.com/4.14.1/standard/ckeditor.js"></script>
-    {{-- <script src="{{ asset('admin/js/ckeditor/ckeditor.js') }}" type="text/javascript"></script> --}}
-    {{-- <script src="{{ asset('admin/js/content-management.js') }}"></script> --}}
+    <script src="//cdn.ckeditor.com/4.25.0-lts/standard/ckeditor.js"></script>
+    {{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
+    
+    <script src="{{ asset('admin/js/ckeditor/ckeditor.js') }}" type="text/javascript"></script> 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/notify/0.4.2/notify.min.js"></script>
+    <script src="{{ asset('admin/js/content-management.js') }}"></script>
 @endif

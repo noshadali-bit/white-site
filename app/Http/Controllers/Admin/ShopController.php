@@ -9,6 +9,8 @@ use App\Models\Imagetable;
 use App\Models\Category;
 use App\Models\Products;
 use App\Models\Sub_category;
+use App\Models\Product_images;
+
 
 class ShopController extends Controller
 {
@@ -67,6 +69,7 @@ class ShopController extends Controller
         $product = Products::create([
             'title' =>  $request['title'],
             'price' =>  $request['price'],
+            'old_price' =>  $request['old_price'],
             'slug' => str_replace(' ', '-', strtolower($request['title'])),
             'category_id' =>  $request['category'],
             'sub_category_id' =>  $request['sub_category'],
@@ -85,6 +88,21 @@ class ShopController extends Controller
             );
         }
 
+        if (request()->hasFile('product_images')) {
+            $paths = $request->file('product_images');
+            foreach ($paths as $index  => $path) {
+                $file_name =  $request->file('product_images')[$index];
+                $image =   $request->file('product_images')[$index]->store('Uploads/Product/other-images/' . rand() . rand(10, 1000), 'public');
+                $image_path = Product_images::create(
+                    [
+                        'product_id' => $product->id,
+                        'img_path' => asset($image),
+
+                    ]
+                );
+            }
+        }
+
         return redirect()->route('admin.products_listing')->with('notify_success', 'Product Added Successfuly!!');
     }
 
@@ -93,7 +111,8 @@ class ShopController extends Controller
         $product = Products::with(['get_categories', 'get_sub_categories'])->where('slug', $id)->first();
         $categories = Category::where('is_active', 1)->get();
         $subcategories = Sub_category::where('is_active', 1)->get();
-        $data = compact('categories', 'product', 'subcategories');
+        $other_images = Product_images::where('product_id', $product->id)->get();
+        $data = compact('categories', 'product', 'subcategories', 'other_images');
         return view('admin.products-management.edit')->with('title', 'Edit Product')->with($data);
     }
 
@@ -110,6 +129,7 @@ class ShopController extends Controller
         $product = Products::where('id', $request->id)->update([
             'title' =>  $request['title'],
             'price' =>  $request['price'],
+            'old_price' =>  $request['old_price'],
             'slug' => str_replace(' ', '-', strtolower($request['title'])),
             'category_id' =>  $request['category'],
             'sub_category_id' =>  $request['sub_category'],
@@ -127,6 +147,21 @@ class ShopController extends Controller
                 ]
             );
         }
+
+        if (request()->hasFile('product_images')) {
+            $paths = $request->file('product_images');
+            foreach ($paths as $index  => $path) {
+                $file_name =  $request->file('product_images')[$index];
+                $image =   $request->file('product_images')[$index]->store('Uploads/Product/other-images/' . rand() . rand(10, 1000), 'public');
+                $image_path = Product_images::create(
+                    [
+                        'product_id' => $request->id,
+                        'img_path' => asset($image),
+
+                    ]
+                );
+            }
+        }
         
         return redirect()->route('admin.products_listing')->with('notify_success', 'Product Added Successfuly!!');
     }
@@ -143,6 +178,12 @@ class ShopController extends Controller
             $products->save();
             return redirect()->route('admin.products_listing')->with('notify_success', 'Product Suspended Successfuly!!');
         }
+    }
+
+    public function delete_other_img($id)
+    {
+        $delete_img = Product_images::where('slug', $id)->delete();
+        return back()->with('notify_success', 'Image Deleted!');
     }
 
     public function delete_products($id)

@@ -33,7 +33,7 @@
         </div>
         <div class="container py-4">
             <div class="main_logo">
-                <a href="index.php" class="header__logo">
+                <a href="{{ route('home') }}" class="header__logo">
                     <img src="assets/images/logo.png" alt="Logo" class="imgFluid" />
                 </a>
             </div>

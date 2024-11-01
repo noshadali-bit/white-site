@@ -7,7 +7,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="foo_info">
-                                <a href="index.php" class="image">
+                                <a href="{{ route('home') }}" class="image">
                                     <img src="{{ asset('assets/images/logo2.png') }}" alt="">
                                 </a>
                                 <p>"Discover denim perfection for every shape in our latest collection.</p>
@@ -20,7 +20,7 @@
                         <div class="col-md-3">
                             <h3 class="foo_title">QUICK LINKS</h3>
                             <ul class="foo_list">
-                                <li><a href="index.php">Home</a></li>
+                                <li><a href="{{ route('home') }}">Home</a></li>
                                 <li><a href="about.php">About</a></li>
                                 <li><a href="product.php">New Arrivals</a></li>
                                 <li><a href="product.php">Holiday</a></li>

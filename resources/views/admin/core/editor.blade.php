@@ -17,7 +17,7 @@
         </div>
         <div class="col-md-12">
             <div class="row">
-                <div class="col-md-6">
+                {{-- <div class="col-md-6">
                     <div class="form-group">
                         <label class="control-label">Width</label>
                         <input type="number" class="form-control" step="any" min="0" id="imageinlinewidth" />
@@ -28,13 +28,13 @@
                         <label class="control-label">Height</label>
                         <input type="number" class="form-control" step="any" min="0" id="imageinlineheight" />
                     </div>
-                </div>
-                <div class="col-md-12" id="img_href_admin" style="display:none;">
+                </div> --}}
+                {{-- <div class="col-md-12" id="img_href_admin" style="display:none;">
                     <div class="form-group">
                         <label class="control-label">Apply href link</label>
                         <input type="text"  id="imagehref" class="form-control" />
                     </div>
-                </div>
+                </div> --}}
                 <!-- <div class="col-md-12">
                     <label class="control-label">Applied Css</label>
                     <div id="img_css_admin">
@@ -499,5 +499,19 @@ input#adminuploadAjax {
 .alert-dark .alert-link {
     color: #040505
 }
-
+.custom-menu li a {
+    padding: 6px 14px;
+    margin-bottom: 1px;
+    background-color: rgba(0, 0, 0, 0.9);
+    border: 0;
+    color: white;
+    font-weight: 100;
+    font-size: 12px;
+    transition: all 1s linear;
+    display: block;
+}
+.custom-menu {
+    position: absolute;
+    z-index: 1001;
+}
 </style>

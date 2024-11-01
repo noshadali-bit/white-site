@@ -71,7 +71,7 @@ class FrontEndEditorController extends Controller
     }
     public function imageUpload(Request $request){
         $data = explode("|",$_POST['id']);
-        //dd();
+        
         if(!empty($_FILES)){
             if(!empty($_FILES['file'])){
                 $_FILES['file']['img_href'] = $_POST['href'];
@@ -79,14 +79,12 @@ class FrontEndEditorController extends Controller
         }
         if($request->has('file')){
             if(count($data)>3){
-                //$imageSavefooter = $this->imageUpload($_FILES,'file',$data[2],$data[1],1,true,$data[3],$data[4],1,true);
                 $imageSavefooter='';
             } else {
                 $imagetable=Imagetable::where('table_name',$data[0])->first();
                 if($imagetable){
                     $imageid=$imagetable->id;
                     try {
-                        //dd($imageid);
                         $imagetable=Imagetable::where('table_name',$data[0])->delete();
                         app("App\Http\Controllers\CoreDeletesController")->deleteResizedImage($imageid);
                     }catch(\Exception $ex){

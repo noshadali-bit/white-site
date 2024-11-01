@@ -252,6 +252,9 @@ function fireNotify(data, obj) {
     generateNotification('success', 'Content Added');
     ReloadPage();
 }
+function ReloadPage() {
+    location.reload();
+}
 
 function updateStatusIfActive(id, updatedId, updatedAgainst, curStatus, table) {
     var keyArray = [];
